@@ -23,6 +23,7 @@ class WorldGenerator {
 
             repeat(MAP_OBJECTS_COUNT / 3) {
                 walls.addAll(generateRandomVerticalWall())
+                walls.addAll(generateRandomHorizontalWall())
             }
 
             occupiedPlaces.clear()
@@ -36,7 +37,10 @@ class WorldGenerator {
             while (true) {
                 var free = true
                 x = Random.nextInt(minX, maxX)
-                y = Random.nextInt(minY, maxY)
+                y = Random.nextInt(
+                    minY + PLAYER_SPRITE_HEIGHT,
+                    maxY - 10 * WALL_SPRITE_HEIGHT - PLAYER_SPRITE_HEIGHT
+                )
 
                 val rect = Matter.Bodies.rectangle(
                     x + WALL_SPRITE_WIDTH / 2,
@@ -73,6 +77,57 @@ class WorldGenerator {
                     10 * WALL_SPRITE_HEIGHT + 2 * PLAYER_SPRITE_HEIGHT
                 )
             )
+            return walls
+        }
+
+        private fun generateRandomHorizontalWall(): ArrayList<Wall> {
+            var x: Int
+            var y: Int
+
+            while (true) {
+                var free = true
+                x = Random.nextInt(
+                    minX + PLAYER_SPRITE_WIDTH,
+                    maxX - 10 * WALL_SPRITE_WIDTH - PLAYER_SPRITE_WIDTH
+                )
+                y = Random.nextInt(minY, maxY)
+
+                val rect = Matter.Bodies.rectangle(
+                    x + ((10 * WALL_SPRITE_WIDTH) / 2),
+                    y + WALL_SPRITE_HEIGHT / 2,
+                    10 * WALL_SPRITE_WIDTH,
+                    WALL_SPRITE_HEIGHT
+                )
+
+                occupiedPlaces.forEach { place ->
+                    if (Matter.SAT.collides(place, rect).collided as Boolean) free = false
+                }
+
+                if (free) break
+            }
+
+            return generateHorizontalWall(x, y)
+        }
+
+        private fun generateHorizontalWall(x: Int, y: Int): ArrayList<Wall> {
+            val walls = ArrayList<Wall>()
+
+            var pos = x
+
+            repeat(10) {
+                walls.add(Wall(pos, y))
+                pos += WALL_SPRITE_WIDTH
+            }
+
+            occupiedPlaces.add(
+                Matter.Bodies.rectangle(
+                    x + ((10 * WALL_SPRITE_WIDTH) / 2),
+                    y + WALL_SPRITE_HEIGHT / 2,
+                    10 * WALL_SPRITE_WIDTH + 2 * PLAYER_SPRITE_WIDTH,
+                    WALL_SPRITE_HEIGHT + 2 * PLAYER_SPRITE_HEIGHT
+                )
+            )
+
             return walls
         }
     }
