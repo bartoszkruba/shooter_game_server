@@ -1,12 +1,19 @@
 external fun require(module: String): dynamic
 
+inline fun jsObject(init: dynamic.() -> Unit): dynamic {
+    val o = js("{}")
+    init(o)
+    return o
+}
+
 fun main() {
-    val express = require("express")
-    val app = express()
+    val app = require("express")()
+    val server = require("http").Server(app)
+    val io = require("socket.io")(server)
+    server.listen(8080) { println("Server is running on 8080...") }
 
-    app.listen(3000) { println("Listening on port 3000") }
-
-    app.get("/") { _, res, _ ->
-        res.send("i am beautiful butterfly")
+    io.on("connection") { socket ->
+        println("Player connected, ${socket.id}")
+        socket.emit("socketID", jsObject { id = socket.id })
     }
 }
