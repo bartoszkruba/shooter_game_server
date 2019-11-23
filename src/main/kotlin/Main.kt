@@ -2,21 +2,12 @@ import settings.AGENT_UPDATES_PER_SECOND
 import settings.PICKUP_UPDATES_PER_SECOND
 import settings.PROJECTILE_UPDATES_PER_SECOND
 import settings.SCOREBOARD_UPDATES_PER_SECOND
-import util.Wall
-import util.WorldGenerator
-
-external fun require(module: String): dynamic
-
-inline fun jsObject(init: dynamic.() -> Unit): dynamic {
-    val o = js("{}")
-    init(o)
-    return o
-}
+import util.*
 
 fun main() {
-    val app = require("express")()
-    val server = require("http").Server(app)
-    val io = require("socket.io")(server)
+    val app = Express()
+    val server = Http.Server(app)
+    val io = SocketIO(server)
 
     val walls = WorldGenerator.generateWalls()
 
