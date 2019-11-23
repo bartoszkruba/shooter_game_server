@@ -7,4 +7,5 @@ import util.Matter
 
 class Wall(val x: Int, val y: Int) : BaseObject() {
     val bounds = Matter.Bodies.rectangle(x, y, WALL_SPRITE_WIDTH, WALL_SPRITE_HEIGHT)
+    val zones = ArrayList<String>()
 }
