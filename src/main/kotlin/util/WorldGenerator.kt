@@ -1,5 +1,6 @@
 package util
 
+import models.obstacles.Wall
 import settings.*
 import kotlin.random.Random
 
@@ -7,8 +8,6 @@ private const val minX = WALL_SPRITE_WIDTH
 private const val maxX = MAP_WIDTH - 2 * WALL_SPRITE_WIDTH
 private const val minY = WALL_SPRITE_HEIGHT
 private const val maxY = MAP_HEIGHT - 2 * WALL_SPRITE_HEIGHT
-
-class Wall(val x: Int, val y: Int)
 
 private val occupiedPlaces = ArrayList<dynamic>()
 
