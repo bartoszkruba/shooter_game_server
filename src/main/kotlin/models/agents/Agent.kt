@@ -1,7 +1,9 @@
 package models.agents
 
-import models.BaseObject
+import models.idObject
 import models.physics.Velocity
+import models.weapons.Pistol
+import models.weapons.Weapon
 import settings.INVINCIBILITY_DURATION
 import settings.PLAYER_BASE_HEALTH
 import settings.PLAYER_SPRITE_HEIGHT
@@ -15,7 +17,7 @@ class Agent(
     var directionAngle: Float = 0f,
     var name: String,
     var weapon: Weapon = Pistol()
-) : BaseObject() {
+) : idObject() {
 
     var zones = ArrayList<String>()
     var viewportZones = ArrayList<String>()
