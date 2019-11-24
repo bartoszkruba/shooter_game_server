@@ -21,3 +21,7 @@ const val PLAYER_SPRITE_HEIGHT = 65
 
 const val ZONE_SIZE = 100
 
+const val PLAYER_BASE_HEALTH = 200
+
+const val INVINCIBILITY_DURATION = 5
+
