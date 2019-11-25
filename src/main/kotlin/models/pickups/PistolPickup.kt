@@ -9,4 +9,11 @@ class PistolPickup(
     x: Float,
     y: Float,
     ammunition: Int = PISTOL_BULLETS_IN_CHAMBER
-) : Pickup(x, y, PISTOL_SPRITE_WIDTH, PISTOL_SPRITE_HEIGHT, ProjectileType.PISTOL, ammunition)
+) : Pickup(
+    x = x,
+    y = y,
+    width = PISTOL_SPRITE_WIDTH,
+    height = PISTOL_SPRITE_HEIGHT,
+    type = ProjectileType.PISTOL,
+    ammunition = ammunition
+)
