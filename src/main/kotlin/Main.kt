@@ -4,7 +4,9 @@ import settings.PROJECTILE_UPDATES_PER_SECOND
 import settings.SCOREBOARD_UPDATES_PER_SECOND
 import util.*
 
+
 fun main() {
+    agentDataLoop()
     val app = Express()
     val server = Http.Server(app)
     val io = SocketIO(server)
@@ -24,5 +26,16 @@ fun main() {
         socket.emit("socketID", jsObject { id = socket.id })
         socket.emit("wallData", walls)
     }
-
 }
+
+
+fun agentDataLoop() = launch(block = {
+    while (true) {
+        println("loop")
+        delay(1000L)
+    }
+})
+
+
+
+
