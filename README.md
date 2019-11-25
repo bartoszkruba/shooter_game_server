@@ -1,4 +1,4 @@
-## Attempt of rewriting [shooter_game](https://github.com/bartoszkruba/shooter_game) server node.js module to Kotlin
+## Attempt of rewriting [shooter_game](https://github.com/bartoszkruba/shooter_game) node.js module to Kotlin
 
 ### How to run
 
