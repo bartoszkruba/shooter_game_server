@@ -1,6 +1,6 @@
 package models.agents
 
-import models.idObject
+import models.IdObject
 import models.physics.Velocity
 import models.weapons.Pistol
 import models.weapons.Weapon
@@ -17,7 +17,7 @@ class Agent(
     var directionAngle: Float = 0f,
     var name: String,
     var weapon: Weapon = Pistol()
-) : idObject() {
+) : IdObject() {
 
     var zones = ArrayList<String>()
     var viewportZones = ArrayList<String>()

@@ -2,6 +2,6 @@ package models
 
 import util.ShortId
 
-abstract class idObject {
+abstract class IdObject {
     val id = ShortId.generate() as String
 }
