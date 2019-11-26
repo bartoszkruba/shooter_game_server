@@ -1,3 +1,5 @@
+import engine.GameEngine
+import server.DataUpdater
 import settings.AGENT_UPDATES_PER_SECOND
 import settings.PICKUP_UPDATES_PER_SECOND
 import settings.PROJECTILE_UPDATES_PER_SECOND
@@ -6,12 +8,16 @@ import util.*
 
 
 fun main() {
-    agentDataLoop()
     val app = Express()
     val server = Http.Server(app)
     val io = SocketIO(server)
-
-    val walls = WorldGenerator.generateWalls()
+    val gameEngine = GameEngine()
+    val dataUpdater = DataUpdater(
+        walls = gameEngine.walls,
+        agents = gameEngine.agents,
+        matrix = gameEngine.matrix,
+        socketIo = io
+    )
 
     server.listen(8080) {
         println("Server is running on 8080...")
@@ -23,19 +29,9 @@ fun main() {
 
     io.on("connection") { socket ->
         println("Player connected, ${socket.id}")
-        socket.emit("socketID", jsObject { id = socket.id })
-        socket.emit("wallData", walls)
+        dataUpdater.sendSocketId(socket)
+        dataUpdater.sendWallData(socket)
     }
+
+    dataUpdater.agentDataLoop()
 }
-
-
-fun agentDataLoop() = launch(block = {
-    while (true) {
-        println("loop")
-        delay(1000L)
-    }
-})
-
-
-
-
