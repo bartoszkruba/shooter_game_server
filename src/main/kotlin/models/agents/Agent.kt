@@ -15,9 +15,10 @@ class Agent(
     var x: Float = 0f,
     var y: Float = 0f,
     var directionAngle: Float = 0f,
-    var name: String,
-    var weapon: Weapon = Pistol()
-) : IdObject() {
+    var name: String = "",
+    var weapon: Weapon = Pistol(),
+    val id: String
+) {
 
     var zones = ArrayList<String>()
     var viewportZones = ArrayList<String>()

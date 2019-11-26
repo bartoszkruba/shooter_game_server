@@ -1,4 +1,5 @@
 import engine.GameEngine
+import models.agents.Agent
 import server.DataUpdater
 import settings.AGENT_UPDATES_PER_SECOND
 import settings.PICKUP_UPDATES_PER_SECOND
@@ -29,9 +30,11 @@ fun main() {
 
     io.on("connection") { socket ->
         println("Player connected, ${socket.id}")
+        gameEngine.addAgent(socket.id.toString(), 500, 500)
         dataUpdater.sendSocketId(socket)
         dataUpdater.sendWallData(socket)
     }
+    gameEngine.start()
 
-    dataUpdater.agentDataLoop()
+    dataUpdater.agentDataLoop(gameEngine)
 }

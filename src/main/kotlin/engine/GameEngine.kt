@@ -30,5 +30,5 @@ class GameEngine {
         })
     }
 
-    fun addAgent(agent: Agent) = agentEngine.addAgent(agent)
+    fun addAgent(id: String, x: Int, y: Int) = agentEngine.addAgent(id, x, y)
 }

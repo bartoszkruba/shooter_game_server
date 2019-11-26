@@ -16,8 +16,8 @@ class DataUpdater(
     private val matrix: Matrix,
     private val socketIo: dynamic
 ) {
-    fun agentDataLoop() = launch(block = {
-        while (true) {
+    fun agentDataLoop(gameEngine: GameEngine) = launch(block = {
+        while (gameEngine.continueLooping) {
             for (agent in agents) {
                 var minX = agent.bounds.position.x - WINDOW_WIDTH
                 var minY = agent.bounds.position.y - WINDOW_HEIGHT
