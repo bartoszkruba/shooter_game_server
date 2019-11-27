@@ -1,5 +1,4 @@
 import engine.GameEngine
-import models.agents.Agent
 import server.DataUpdater
 import settings.AGENT_UPDATES_PER_SECOND
 import settings.PICKUP_UPDATES_PER_SECOND

@@ -52,22 +52,27 @@ class DataUpdater(
 
                 for (zone in agent.viewportZones) {
                     matrix.agents[zone]?.forEach {
-                        if (!ids.contains(it.id)) agData.add(jsObject {
-                            x = agent.bounds.bounds.min.x
-                            y = agent.bounds.bounds.min.y
-                            name = agent.name
-                            xVelocity = agent.velocity.x
-                            yVelocity = agent.velocity.y
-                            bulletsLeft = if (agent.weapon.reloadMark == -1) agent.weapon.bulletsInChamber else -1
-                            isDead = agent.dead
-                            currentHealth = agent.health
-                            id = agent.id
-                            weapon = agent.weapon.projectileType
-                            angle = agent.directionAngle
-                            inv = agent.invincible
-                        })
+                        if (!ids.contains(it.id)) {
+                            ids.add(it.id)
+                            agData.add(jsObject {
+                                x = agent.bounds.bounds.min.x
+                                y = agent.bounds.bounds.min.y
+                                name = agent.name
+                                xVelocity = agent.velocity.x
+                                yVelocity = agent.velocity.y
+                                bulletsLeft = if (agent.weapon.reloadMark == -1) agent.weapon.bulletsInChamber else -1
+                                isDead = agent.dead
+                                currentHealth = agent.health
+                                id = agent.id
+                                weapon = agent.weapon.projectileType
+                                angle = agent.directionAngle
+                                inv = agent.invincible
+                            })
+                        }
                     }
                 }
+
+
                 socketIo.to(agent.id).emit("agentData", jsObject { agentData = agData })
             }
             delay(1000L / AGENT_UPDATES_PER_SECOND)

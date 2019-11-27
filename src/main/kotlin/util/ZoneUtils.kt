@@ -24,8 +24,8 @@ class ZoneUtils {
         fun getZonesForBounds(minX: Int, maxX: Int, minY: Int, maxY: Int): ArrayList<String> {
             val zones = ArrayList<String>()
 
-            for (i in (minX / 1)..(maxX / 1)) {
-                for (j in (minY / 1)..(maxY / 1)) {
+            for (i in ((minX / ZONE_SIZE) / 1)..(maxX / ZONE_SIZE) / 1) {
+                for (j in ((minY / ZONE_SIZE) / 1)..((maxY / ZONE_SIZE) / 1)) {
                     zones.add("_${i}_${j}")
                 }
             }

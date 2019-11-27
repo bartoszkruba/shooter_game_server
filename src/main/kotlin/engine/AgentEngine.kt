@@ -30,7 +30,11 @@ class AgentEngine(val matrix: Matrix, val agents: ArrayList<Agent>) {
         agents.add(agent)
         agent.zones.addAll(ZoneUtils.getZonesForBounds(agent.bounds))
 
-        for (zone in agent.zones) matrix.agents[zone]?.add(agent)
+        for (zone in agent.zones) matrix.agents[zone]?.add(agent) ?: run {
+            matrix.agents[zone] = ArrayList()
+            matrix.agents[zone]!!.add(agent)
+        }
+
     }
 
 }
