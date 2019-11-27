@@ -31,4 +31,5 @@ class GameEngine {
     }
 
     fun addAgent(id: String, x: Int, y: Int) = agentEngine.addAgent(id, x, y)
+    fun setAgentKeyPressed(agentId: String, key: Key) = agentEngine.setKeyPressed(agentId, key)
 }

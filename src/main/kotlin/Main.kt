@@ -1,4 +1,5 @@
 import engine.GameEngine
+import server.ControlsMapper
 import server.DataUpdater
 import settings.AGENT_UPDATES_PER_SECOND
 import settings.PICKUP_UPDATES_PER_SECOND
@@ -29,6 +30,9 @@ fun main() {
 
     io.on("connection") { socket ->
         println("Player connected, ${socket.id}")
+
+        socket.on("startKey") { data -> ControlsMapper.processKeyPressed(data, socket, gameEngine) }
+
         gameEngine.addAgent(socket.id.toString(), 500, 500)
         dataUpdater.sendSocketId(socket)
         dataUpdater.sendWallData(socket)

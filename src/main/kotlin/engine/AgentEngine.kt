@@ -6,6 +6,8 @@ import util.Matter
 import util.ZoneUtils
 import util.jsObject
 
+enum class Key { UP, DOWN, LEFT, RIGHT }
+
 class AgentEngine(val matrix: Matrix, val agents: ArrayList<Agent>) {
 
     fun addAgent(id: String, xPos: Int, yPos: Int) {
@@ -34,7 +36,20 @@ class AgentEngine(val matrix: Matrix, val agents: ArrayList<Agent>) {
             matrix.agents[zone] = ArrayList()
             matrix.agents[zone]!!.add(agent)
         }
+    }
 
+    fun setKeyPressed(agentId: String, key: Key) {
+
+        val agent = agents.find { it.id == agentId }
+
+        when (key) {
+            Key.UP -> agent?.upPressed = true
+            Key.DOWN -> agent?.downPressed = true
+            Key.LEFT -> agent?.leftPressed = true
+            Key.RIGHT -> agent?.rightPressed = true
+        }
+
+        // todo change velocity
     }
 
 }

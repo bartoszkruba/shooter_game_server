@@ -23,8 +23,8 @@ class Agent(
     var zones = ArrayList<String>()
     var viewportZones = ArrayList<String>()
 
-    var forwardPressed = false
-    var backwardPressed = false
+    var upPressed = false
+    var downPressed = false
     var rightPressed = false
     var leftPressed = false
     var pickWeapon = false
