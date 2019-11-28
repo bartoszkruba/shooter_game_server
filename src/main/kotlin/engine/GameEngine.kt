@@ -4,6 +4,7 @@ import models.agents.Agent
 import models.obstacles.Wall
 import util.delay
 import util.launch
+import kotlin.js.Date
 
 class GameEngine {
     val matrix = Matrix()
@@ -22,14 +23,27 @@ class GameEngine {
 
     fun start() {
         continueLooping = true
-        launch(block = {
-            while (true) {
-
-                delay(1000 / 60)
-            }
-        })
+        gameLoop()
     }
+
+    private fun gameLoop() = launch(block = {
+        var lastLoop = Date().getTime()
+        var currentTime: Double
+        var delta: Float
+
+        while (true) {
+            currentTime = Date().getTime()
+            delta = (currentTime - lastLoop).toFloat()
+
+            agentEngine.processAgentActions(delta)
+
+            lastLoop = currentTime
+            delay(1000 / 60)
+        }
+    })
+
 
     fun addAgent(id: String, x: Int, y: Int) = agentEngine.addAgent(id, x, y)
     fun setAgentKeyPressed(agentId: String, key: Key) = agentEngine.setKeyPressed(agentId, key)
+    fun setAgentKeyReleased(agentId: String, key: Key) = agentEngine.setKeyReleased(agentId, key)
 }

@@ -19,6 +19,8 @@ const val WALL_SPRITE_HEIGHT = 50
 const val PLAYER_SPRITE_WIDTH = 56
 const val PLAYER_SPRITE_HEIGHT = 65
 
+const val PLAYER_MOVEMENT_SPEED = 200f
+
 const val ZONE_SIZE = 100
 
 const val PLAYER_BASE_HEALTH = 200
