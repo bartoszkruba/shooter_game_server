@@ -105,6 +105,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     }
 
     fun setKeyPressed(agentId: String, key: Key) = agents.find { it.id == agentId }?.let {
+
         when (key) {
             Key.UP -> it.upPressed = true
             Key.DOWN -> it.downPressed = true
@@ -115,6 +116,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     }
 
     fun setKeyReleased(agentId: String, key: Key) = agents.find { it.id == agentId }?.let {
+
         when (key) {
             Key.UP -> it.upPressed = false
             Key.DOWN -> it.downPressed = false
@@ -129,7 +131,6 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         agent.velocity.x = 0f
         agent.velocity.y = 0f
 
-        var movementSpeed = PLAYER_MOVEMENT_SPEED
         var pressedKeys = 0
 
         if (agent.upPressed) pressedKeys++
@@ -137,12 +138,12 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         if (agent.leftPressed) pressedKeys++
         if (agent.rightPressed) pressedKeys++
 
-        if (pressedKeys > 1) movementSpeed *= 0.7f
+        val velocity = if (pressedKeys > 1) 0.7f else 1f
 
-        if (agent.upPressed) agent.velocity.y += movementSpeed;
-        if (agent.downPressed) agent.velocity.y -= movementSpeed;
-        if (agent.leftPressed) agent.velocity.x -= movementSpeed;
-        if (agent.rightPressed) agent.velocity.x += movementSpeed;
+        if (agent.upPressed) agent.velocity.y += velocity
+        if (agent.downPressed) agent.velocity.y -= velocity
+        if (agent.leftPressed) agent.velocity.x -= velocity
+        if (agent.rightPressed) agent.velocity.x += velocity
     }
 
 }

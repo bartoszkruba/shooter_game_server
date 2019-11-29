@@ -33,7 +33,7 @@ class GameEngine {
 
         while (true) {
             currentTime = Date().getTime()
-            delta = (currentTime - lastLoop).toFloat()
+            delta = (currentTime - lastLoop).toFloat() / 1000f
 
             agentEngine.processAgentActions(delta)
 
