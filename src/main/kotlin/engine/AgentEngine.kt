@@ -146,4 +146,8 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         if (agent.rightPressed) agent.velocity.x += velocity
     }
 
+    fun changeAgentName(agentId: String, newName: String) {
+        agents.find { it.id == agentId }?.name = newName
+    }
+
 }

@@ -43,4 +43,5 @@ fun main() {
 private fun configureSocketEvents(socket: dynamic, gameEngine: GameEngine) {
     socket.on("startKey") { data -> ControlsMapper.processKeyPressed(data, socket, gameEngine) }
     socket.on("stopKey") { data -> ControlsMapper.processKeyReleased(data, socket, gameEngine) }
+    socket.on("playerName") { data -> ControlsMapper.processNameChange(data, socket, gameEngine) }
 }

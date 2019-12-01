@@ -22,5 +22,9 @@ class ControlsMapper {
                 data["D"] != null -> engine.setAgentKeyReleased(socket.id as String, Key.RIGHT)
             }
         }
+
+        fun processNameChange(data: dynamic, socket: dynamic, engine: GameEngine) {
+            engine.changeAgentName(socket.id as String, data.name as String)
+        }
     }
 }
