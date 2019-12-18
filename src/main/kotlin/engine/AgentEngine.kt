@@ -12,8 +12,8 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
 
     fun processAgentActions(delta: Float) {
         for (agent in agents) {
-            processWeaponControls(agent)
             processMoveControls(agent, delta)
+            processWeaponControls(agent)
         }
     }
 
@@ -28,7 +28,10 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     }
 
     private fun processWeaponControls(agent: Agent) {
-        if (agent.shootPressed) println("${agent.id} shooting")
+        if (agent.shootPressed && agent.weapon.canShoot && !agent.dead) {
+            agent.weapon.shoot()
+            engine.spawnProjectile(agent)
+        }
     }
 
     private fun moveAgent(agent: Agent, newX: Float, newY: Float, oldX: Float, oldY: Float) {

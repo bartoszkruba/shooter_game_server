@@ -56,6 +56,5 @@ class GameEngine {
     fun setAgentMouseReleased(agentId: String) = agentEngine.setMouseReleased(agentId)
     fun changeAgentName(agentId: String, newName: String) = agentEngine.changeAgentName(agentId, newName)
 
-    fun spawnProjectile(x: Float, y: Float, xSpeed: Float, ySpeed: Float, agentId: String, type: String) =
-        projectileEngine.spawnProjectile(x, y, xSpeed, ySpeed, agentId, type, dataBroadcaster!!)
+    fun spawnProjectile(agent: Agent) = projectileEngine.spawnProjectile(agent, dataBroadcaster!!)
 }
