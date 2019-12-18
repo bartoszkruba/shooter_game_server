@@ -4,6 +4,7 @@ import engine.GameEngine
 import engine.Matrix
 import models.agents.Agent
 import models.obstacles.Wall
+import models.projectiles.Projectile
 import settings.*
 import util.ZoneUtils
 import util.delay
@@ -13,10 +14,11 @@ import util.launch
 class DataUpdater(
     private val walls: ArrayList<Wall>,
     private val agents: ArrayList<Agent>,
+    private val projectiles: ArrayList<Projectile>,
     private val matrix: Matrix,
     private val socketIo: dynamic
 ) {
-    fun agentDataLoop(gameEngine: GameEngine) = launch(block = {
+    fun agentDataLoop(gameEngine: GameEngine) = launch {
         while (gameEngine.continueLooping) {
             for (agent in agents) {
                 var minX = agent.bounds.position.x - WINDOW_WIDTH
@@ -75,7 +77,35 @@ class DataUpdater(
             }
             delay(1000L / AGENT_UPDATES_PER_SECOND)
         }
-    })
+    }
+
+    fun projectileDataLoop(gameEngine: GameEngine) = launch {
+        while (gameEngine.continueLooping) {
+            for (agent in agents) {
+                val projData = ArrayList<dynamic>()
+                val ids = ArrayList<String>()
+                for (zone in agent.zones) {
+                    matrix.projectiles[zone]?.let {
+                        for (projectile in it) {
+                            if (ids.contains(projectile.id)) continue
+                            ids.add(projectile.id)
+                            projData.add(jsObject {
+                                x = projectile.bounds.position.x
+                                y = projectile.bounds.position.y
+                                id = projectile.id
+                                xSpeed = projectile.velocity.x
+                                ySpeed = projectile.velocity.y
+                                type = projectile.type
+                                agentId = projectile.agentId
+                            })
+                        }
+                    }
+                }
+                socketIo.to(agent.id).emit("projectileData", jsObject { projectileData = projData })
+            }
+            delay(1000L / PROJECTILE_UPDATES_PER_SECOND)
+        }
+    }
 
     fun sendWallData(socket: dynamic) {
         val wallData = ArrayList<dynamic>()

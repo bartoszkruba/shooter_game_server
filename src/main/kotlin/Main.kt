@@ -16,6 +16,7 @@ fun main() {
     val dataUpdater = DataUpdater(
         walls = gameEngine.walls,
         agents = gameEngine.agents,
+        projectiles = gameEngine.projectiles,
         matrix = gameEngine.matrix,
         socketIo = io
     )
@@ -38,6 +39,7 @@ fun main() {
     }
     gameEngine.start()
     dataUpdater.agentDataLoop(gameEngine)
+    dataUpdater.projectileDataLoop(gameEngine)
 }
 
 private fun configureSocketEvents(socket: dynamic, gameEngine: GameEngine) {

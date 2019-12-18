@@ -2,6 +2,7 @@ package engine
 
 import models.agents.Agent
 import models.obstacles.Wall
+import models.projectiles.Projectile
 import util.delay
 import util.launch
 import kotlin.js.Date
@@ -10,6 +11,7 @@ class GameEngine {
     val matrix = Matrix()
     val walls = ArrayList<Wall>()
     val agents = ArrayList<Agent>()
+    val projectiles = ArrayList<Projectile>()
 
     private val agentEngine = AgentEngine(matrix, agents)
     private val wallEngine = WallEngine(matrix, walls)
