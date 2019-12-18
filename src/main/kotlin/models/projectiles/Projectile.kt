@@ -17,4 +17,5 @@ abstract class Projectile(
 ) : IdObject() {
     val bounds = Matter.Bodies.rectangle(x, y, radius)
     val velocity = Velocity(xSpeed, ySpeed)
+    val zones = ArrayList<String>()
 }

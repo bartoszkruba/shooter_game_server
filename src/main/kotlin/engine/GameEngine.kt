@@ -3,6 +3,7 @@ package engine
 import models.agents.Agent
 import models.obstacles.Wall
 import models.projectiles.Projectile
+import server.DataBroadcaster
 import util.delay
 import util.launch
 import kotlin.js.Date
@@ -13,8 +14,11 @@ class GameEngine {
     val agents = ArrayList<Agent>()
     val projectiles = ArrayList<Projectile>()
 
-    private val agentEngine = AgentEngine(matrix, agents)
+    private val agentEngine = AgentEngine(matrix, agents, this)
+    private val projectileEngine = ProjectileEngine(matrix, projectiles)
     private val wallEngine = WallEngine(matrix, walls)
+
+    var dataBroadcaster: DataBroadcaster? = null
 
     init {
         wallEngine.generateWalls()
@@ -51,4 +55,7 @@ class GameEngine {
     fun setAgentMousePressed(agentId: String) = agentEngine.setMousePressed(agentId)
     fun setAgentMouseReleased(agentId: String) = agentEngine.setMouseReleased(agentId)
     fun changeAgentName(agentId: String, newName: String) = agentEngine.changeAgentName(agentId, newName)
+
+    fun spawnProjectile(x: Float, y: Float, xSpeed: Float, ySpeed: Float, agentId: String, type: String) =
+        projectileEngine.spawnProjectile(x, y, xSpeed, ySpeed, agentId, type, dataBroadcaster!!)
 }

@@ -8,7 +8,7 @@ import util.jsObject
 
 enum class Key { UP, DOWN, LEFT, RIGHT }
 
-class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agent>) {
+class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agent>, private val engine: GameEngine) {
 
     fun processAgentActions(delta: Float) {
         for (agent in agents) {

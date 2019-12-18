@@ -17,7 +17,7 @@ class DataUpdater(
     private val projectiles: ArrayList<Projectile>,
     private val matrix: Matrix,
     private val socketIo: dynamic
-) {
+) : DataBroadcaster {
     fun agentDataLoop(gameEngine: GameEngine) = launch {
         while (gameEngine.continueLooping) {
             for (agent in agents) {
@@ -120,6 +120,26 @@ class DataUpdater(
 
     fun sendSocketId(socket: dynamic) {
         socket.emit("socketID", jsObject { id = socket.id })
+    }
+
+    override fun broadcastNewProjectile(projectile: Projectile) {
+        for (agent in agents) {
+            if (projectile.bounds.position.x > agent.bounds.position.x - WINDOW_WIDTH &&
+                projectile.bounds.position.x < agent.bounds.position.x + WINDOW_WIDTH &&
+                projectile.bounds.position.y > agent.bounds.position.y - WINDOW_HEIGHT &&
+                projectile.bounds.position.y < agent.bounds.position.y + WINDOW_HEIGHT
+            ) {
+                socketIo.to(agent.id).emit("newProjectile", jsObject {
+                    x = projectile.bounds.position.x
+                    y = projectile.bounds.position.y
+                    id = projectile.id
+                    xSpeed = projectile.velocity.x
+                    ySpeed = projectile.velocity.y
+                    type = projectile.type
+                    agentId = projectile.agentId
+                })
+            }
+        }
     }
 }
 

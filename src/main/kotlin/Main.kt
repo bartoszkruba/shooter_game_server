@@ -21,6 +21,8 @@ fun main() {
         socketIo = io
     )
 
+    gameEngine.dataBroadcaster = dataUpdater
+
     server.listen(8080) {
         println("Server is running on 8080...")
         println("Sending player data $AGENT_UPDATES_PER_SECOND times per second")
