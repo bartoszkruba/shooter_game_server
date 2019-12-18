@@ -27,7 +27,9 @@ class Agent(
     var downPressed = false
     var rightPressed = false
     var leftPressed = false
+    var shootPressed = false
     var pickWeapon = false
+
 
     var health = PLAYER_BASE_HEALTH
         set(value) {

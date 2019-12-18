@@ -5,26 +5,32 @@ import engine.Key
 
 class ControlsMapper {
     companion object {
-        fun processKeyPressed(data: dynamic, socket: dynamic, engine: GameEngine) {
+        fun processKeyPressed(data: dynamic, agentId: String, engine: GameEngine) {
             when {
-                data["W"] != null -> engine.setAgentKeyPressed(socket.id as String, Key.UP)
-                data["A"] != null -> engine.setAgentKeyPressed(socket.id as String, Key.LEFT)
-                data["S"] != null -> engine.setAgentKeyPressed(socket.id as String, Key.DOWN)
-                data["D"] != null -> engine.setAgentKeyPressed(socket.id as String, Key.RIGHT)
+                data["W"] != null -> engine.setAgentKeyPressed(agentId, Key.UP)
+                data["A"] != null -> engine.setAgentKeyPressed(agentId, Key.LEFT)
+                data["S"] != null -> engine.setAgentKeyPressed(agentId, Key.DOWN)
+                data["D"] != null -> engine.setAgentKeyPressed(agentId, Key.RIGHT)
             }
         }
 
-        fun processKeyReleased(data: dynamic, socket: dynamic, engine: GameEngine) {
+        fun processKeyReleased(data: dynamic, agentId: String, engine: GameEngine) {
             when {
-                data["W"] != null -> engine.setAgentKeyReleased(socket.id as String, Key.UP)
-                data["A"] != null -> engine.setAgentKeyReleased(socket.id as String, Key.LEFT)
-                data["S"] != null -> engine.setAgentKeyReleased(socket.id as String, Key.DOWN)
-                data["D"] != null -> engine.setAgentKeyReleased(socket.id as String, Key.RIGHT)
+                data["W"] != null -> engine.setAgentKeyReleased(agentId, Key.UP)
+                data["A"] != null -> engine.setAgentKeyReleased(agentId, Key.LEFT)
+                data["S"] != null -> engine.setAgentKeyReleased(agentId, Key.DOWN)
+                data["D"] != null -> engine.setAgentKeyReleased(agentId, Key.RIGHT)
             }
         }
 
-        fun processNameChange(data: dynamic, socket: dynamic, engine: GameEngine) {
-            engine.changeAgentName(socket.id as String, data.name as String)
+        fun processMousePressed(agentId: String, engine: GameEngine) =
+            engine.setAgentMousePressed(agentId)
+
+        fun processMouseReleased(agentId: String, engine: GameEngine) =
+            engine.setAgentMouseReleased(agentId)
+
+        fun processNameChange(name: String, agentId: String, engine: GameEngine) {
+            engine.changeAgentName(agentId, name)
         }
     }
 }

@@ -41,7 +41,11 @@ fun main() {
 }
 
 private fun configureSocketEvents(socket: dynamic, gameEngine: GameEngine) {
-    socket.on("startKey") { data -> ControlsMapper.processKeyPressed(data, socket, gameEngine) }
-    socket.on("stopKey") { data -> ControlsMapper.processKeyReleased(data, socket, gameEngine) }
-    socket.on("playerName") { data -> ControlsMapper.processNameChange(data, socket, gameEngine) }
+    socket.on("startKey") { data -> ControlsMapper.processKeyPressed(data, socket.id as String, gameEngine) }
+    socket.on("stopKey") { data -> ControlsMapper.processKeyReleased(data, socket.id as String, gameEngine) }
+    socket.on("playerName") { data ->
+        ControlsMapper.processNameChange(data.name as String, socket.id as String, gameEngine)
+    }
+    socket.on("mouseStart") { ControlsMapper.processMousePressed(socket.id as String, gameEngine) }
+    socket.on("mouseStop") { ControlsMapper.processMouseReleased(socket.id as String, gameEngine) }
 }

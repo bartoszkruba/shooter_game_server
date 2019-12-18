@@ -28,7 +28,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     }
 
     private fun processWeaponControls(agent: Agent) {
-
+        if (agent.shootPressed) println("${agent.id} shooting")
     }
 
     private fun moveAgent(agent: Agent, newX: Float, newY: Float, oldX: Float, oldY: Float) {
@@ -105,7 +105,6 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     }
 
     fun setKeyPressed(agentId: String, key: Key) = agents.find { it.id == agentId }?.let {
-
         when (key) {
             Key.UP -> it.upPressed = true
             Key.DOWN -> it.downPressed = true
@@ -116,7 +115,6 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     }
 
     fun setKeyReleased(agentId: String, key: Key) = agents.find { it.id == agentId }?.let {
-
         when (key) {
             Key.UP -> it.upPressed = false
             Key.DOWN -> it.downPressed = false
@@ -126,6 +124,8 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         updateAgentVelocity(it)
     }
 
+    fun setMousePressed(agentId: String) = agents.find { it.id == agentId }?.let { it.shootPressed = true }
+    fun setMouseReleased(agentId: String) = agents.find { it.id == agentId }?.let { it.shootPressed = false }
 
     private fun updateAgentVelocity(agent: Agent) {
         agent.velocity.x = 0f
