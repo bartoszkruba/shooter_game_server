@@ -63,7 +63,7 @@ class ProjectileEngine(private val matrix: Matrix, private val projectiles: Arra
 
     private fun projectToPlayerRectEdge(angle: Float): Point {
         val twoPI = kotlin.math.PI * 2.0
-        var theta = angle / kotlin.math.PI / 180
+        var theta = angle * kotlin.math.PI / 180
 
         while (theta < -kotlin.math.PI) theta += twoPI
         while (theta > kotlin.math.PI) theta -= twoPI

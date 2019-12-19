@@ -30,7 +30,11 @@ class ControlsMapper {
             engine.setAgentMouseReleased(agentId)
 
         fun processNameChange(name: String, agentId: String, engine: GameEngine) {
-            engine.changeAgentName(agentId, name)
+            engine.setAgentName(agentId, name)
+        }
+
+        fun processRotationChange(data: dynamic, agentId: String, engine: GameEngine) {
+            engine.setAgentRotation(agentId, data.degrees as Float)
         }
     }
 }

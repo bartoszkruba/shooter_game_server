@@ -55,7 +55,8 @@ class GameEngine {
     fun setAgentKeyReleased(agentId: String, key: Key) = agentEngine.setKeyReleased(agentId, key)
     fun setAgentMousePressed(agentId: String) = agentEngine.setMousePressed(agentId)
     fun setAgentMouseReleased(agentId: String) = agentEngine.setMouseReleased(agentId)
-    fun changeAgentName(agentId: String, newName: String) = agentEngine.changeAgentName(agentId, newName)
+    fun setAgentName(agentId: String, newName: String) = agentEngine.setAgentName(agentId, newName)
+    fun setAgentRotation(agentId: String, rotation: Float) = agentEngine.setAgentRotation(agentId, rotation)
 
     fun spawnProjectile(agent: Agent) = projectileEngine.spawnProjectile(agent, dataBroadcaster!!)
 }

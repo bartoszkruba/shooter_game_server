@@ -34,17 +34,18 @@ fun main() {
     io.on("connection") { socket ->
         println("Player connected, ${socket.id}")
 
+        socket.on("disconnect") {
+            println("Player disconnected, ${socket.id}")
+            gameEngine.removeAgent(socket.id as String)
+            dataUpdater.broadcastPlayerDisconnect(socket.id as String)
+        }
+
         configureSocketEvents(socket, gameEngine)
         gameEngine.addAgent(socket.id.toString(), 500, 500)
         dataUpdater.sendSocketId(socket)
         dataUpdater.sendWallData(socket)
     }
 
-    io.on("disconnect") { socket ->
-        println("Player disconnected, ${socket.id}")
-        gameEngine.removeAgent(socket.id as String)
-        dataUpdater.broadcastPlayerDisconnect(socket.id as String)
-    }
 
     gameEngine.start()
     dataUpdater.agentDataLoop(gameEngine)
@@ -59,4 +60,5 @@ private fun configureSocketEvents(socket: dynamic, gameEngine: GameEngine) {
     }
     socket.on("mouseStart") { ControlsMapper.processMousePressed(socket.id as String, gameEngine) }
     socket.on("mouseStop") { ControlsMapper.processMouseReleased(socket.id as String, gameEngine) }
+    socket.on("playerRotation") { data -> ControlsMapper.processRotationChange(data, socket.id as String, gameEngine) }
 }
