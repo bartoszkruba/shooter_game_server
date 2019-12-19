@@ -8,9 +8,27 @@ import models.projectiles.ProjectileType
 import server.DataBroadcaster
 import settings.PLAYER_SPRITE_HEIGHT
 import settings.PLAYER_SPRITE_WIDTH
+import util.Matter
 import util.ZoneUtils
+import util.jsObject
 
 class ProjectileEngine(private val matrix: Matrix, private val projectiles: ArrayList<Projectile>) {
+
+    fun processProjectiles(delta: Float) {
+        for (projectile in projectiles) {
+            moveProjectile(delta, projectile)
+        }
+    }
+
+    private fun moveProjectile(delta: Float, projectile: Projectile) {
+
+        val newPosition = jsObject {
+            x = projectile.bounds.position.x + projectile.velocity.x * delta + projectile.speed
+            y = projectile.bounds.position.y + projectile.velocity.y * delta * projectile.speed
+        }
+
+        Matter.Body.setPosition(projectile.bounds, newPosition)
+    }
 
     fun spawnProjectile(agent: Agent, dataBroadcaster: DataBroadcaster) {
         val xCentre = agent.bounds.position.x as Float

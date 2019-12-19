@@ -37,7 +37,7 @@ class GameEngine {
         var currentTime: Double
         var delta: Float
 
-        while (true) {
+        while (continueLooping) {
             currentTime = Date().getTime()
             delta = (currentTime - lastLoop).toFloat() / 1000f
 
