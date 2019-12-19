@@ -107,6 +107,11 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         }
     }
 
+    fun removeAgent(id: String) = agents.find { it.id == id }?.let {
+        for (zone in it.zones) matrix.agents[zone]?.remove(it)
+        agents.remove(it)
+    }
+
     fun setKeyPressed(agentId: String, key: Key) = agents.find { it.id == agentId }?.let {
         when (key) {
             Key.UP -> it.upPressed = true

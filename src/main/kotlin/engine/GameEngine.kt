@@ -32,7 +32,7 @@ class GameEngine {
         gameLoop()
     }
 
-    private fun gameLoop() = launch(block = {
+    private fun gameLoop() = launch {
         var lastLoop = Date().getTime()
         var currentTime: Double
         var delta: Float
@@ -46,10 +46,11 @@ class GameEngine {
             lastLoop = currentTime
             delay(1000 / 60)
         }
-    })
+    }
 
 
     fun addAgent(id: String, x: Int, y: Int) = agentEngine.addAgent(id, x, y)
+    fun removeAgent(id: String) = agentEngine.removeAgent(id)
     fun setAgentKeyPressed(agentId: String, key: Key) = agentEngine.setKeyPressed(agentId, key)
     fun setAgentKeyReleased(agentId: String, key: Key) = agentEngine.setKeyReleased(agentId, key)
     fun setAgentMousePressed(agentId: String) = agentEngine.setMousePressed(agentId)

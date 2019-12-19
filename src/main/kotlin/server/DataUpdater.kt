@@ -122,6 +122,10 @@ class DataUpdater(
         socket.emit("socketID", jsObject { id = socket.id })
     }
 
+    fun broadcastPlayerDisconnect(agentId: String) {
+        for (agent in agents) socketIo.to(agent.id).emit("playerDisconnected", jsObject { id = agentId })
+    }
+
     override fun broadcastNewProjectile(projectile: Projectile) {
         for (agent in agents) {
             if (projectile.bounds.position.x > agent.bounds.position.x - WINDOW_WIDTH &&

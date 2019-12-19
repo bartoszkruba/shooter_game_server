@@ -39,6 +39,13 @@ fun main() {
         dataUpdater.sendSocketId(socket)
         dataUpdater.sendWallData(socket)
     }
+
+    io.on("disconnect") { socket ->
+        println("Player disconnected, ${socket.id}")
+        gameEngine.removeAgent(socket.id as String)
+        dataUpdater.broadcastPlayerDisconnect(socket.id as String)
+    }
+
     gameEngine.start()
     dataUpdater.agentDataLoop(gameEngine)
     dataUpdater.projectileDataLoop(gameEngine)
