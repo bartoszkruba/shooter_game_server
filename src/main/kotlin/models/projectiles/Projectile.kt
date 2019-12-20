@@ -15,7 +15,7 @@ abstract class Projectile(
     val damage: Float,
     val agentId: String
 ) : IdObject() {
-    val bounds = Matter.Bodies.rectangle(x, y, radius)
+    val bounds = Matter.Bodies.circle(x, y, radius)
     val velocity = Velocity(xSpeed, ySpeed)
     val zones = ArrayList<String>()
 }

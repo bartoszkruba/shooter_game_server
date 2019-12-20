@@ -17,16 +17,20 @@ class ProjectileEngine(
 ) {
 
     fun processProjectiles(delta: Float) {
-        for (projectile in projectiles) moveProjectile(delta, projectile)
+        try {
+            for (projectile in projectiles) moveProjectile(delta, projectile)
+        } catch (ex: Exception) {
+            println(ex.message)
+            println(ex.cause)
+        }
     }
 
     private fun moveProjectile(delta: Float, projectile: Projectile) {
 
         val newPosition = jsObject {
-            x = projectile.bounds.position.x + projectile.velocity.x * delta + projectile.speed
+            x = projectile.bounds.position.x + projectile.velocity.x * delta * projectile.speed
             y = projectile.bounds.position.y + projectile.velocity.y * delta * projectile.speed
         }
-
         Matter.Body.setPosition(projectile.bounds, newPosition)
 
         if (projectile.bounds.position.x < WALL_SPRITE_WIDTH ||
@@ -71,7 +75,7 @@ class ProjectileEngine(
     private fun checkWallCollisions(projectile: Projectile): Boolean {
         for (zone in projectile.zones) {
             if (matrix.walls[zone] != null) for (wall in matrix.walls[zone]!!) {
-                if (Matter.SAT.collides(wall.bounds, projectile.bounds) as Boolean) return true
+                if (Matter.SAT.collides(wall.bounds, projectile.bounds).collided as Boolean) return true
             }
         }
         return false
@@ -116,6 +120,7 @@ class ProjectileEngine(
         projectile.zones.addAll(ZoneUtils.getZonesForBounds(projectile.bounds))
         projectiles.add(projectile)
         for (zone in projectile.zones) matrix.projectiles[zone]?.add(projectile) ?: run {
+            println("creating new zone: $zone")
             matrix.projectiles[zone] = ArrayList()
             matrix.projectiles[zone]?.add(projectile)
         }
