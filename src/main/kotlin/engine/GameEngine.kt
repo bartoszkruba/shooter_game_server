@@ -15,7 +15,7 @@ class GameEngine {
     val projectiles = ArrayList<Projectile>()
 
     private val agentEngine = AgentEngine(matrix, agents, this)
-    private val projectileEngine = ProjectileEngine(matrix, projectiles)
+    private val projectileEngine = ProjectileEngine(matrix, projectiles, this)
     private val wallEngine = WallEngine(matrix, walls)
 
     var dataBroadcaster: DataBroadcaster? = null
@@ -42,6 +42,7 @@ class GameEngine {
             delta = (currentTime - lastLoop).toFloat() / 1000f
 
             agentEngine.processAgentActions(delta)
+            projectileEngine.processProjectiles(delta)
 
             lastLoop = currentTime
             delay(1000 / 60)
@@ -57,6 +58,7 @@ class GameEngine {
     fun setAgentMouseReleased(agentId: String) = agentEngine.setMouseReleased(agentId)
     fun setAgentName(agentId: String, newName: String) = agentEngine.setAgentName(agentId, newName)
     fun setAgentRotation(agentId: String, rotation: Float) = agentEngine.setAgentRotation(agentId, rotation)
+    fun addAgentKill(agentId: String) = agentEngine.addAgentKill(agentId)
 
     fun spawnProjectile(agent: Agent) = projectileEngine.spawnProjectile(agent, dataBroadcaster!!)
 }

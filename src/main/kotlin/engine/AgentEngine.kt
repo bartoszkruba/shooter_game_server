@@ -161,4 +161,8 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     fun setAgentRotation(agentId: String, rotation: Float) {
         agents.find { it.id == agentId }?.directionAngle = rotation
     }
+
+    fun addAgentKill(agentId: String) {
+        agents.find { it.id == agentId }?.let { it.kills++ }
+    }
 }

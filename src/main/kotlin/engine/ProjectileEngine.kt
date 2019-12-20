@@ -6,18 +6,18 @@ import models.projectiles.PistolProjectile
 import models.projectiles.Projectile
 import models.projectiles.ProjectileType
 import server.DataBroadcaster
-import settings.PLAYER_SPRITE_HEIGHT
-import settings.PLAYER_SPRITE_WIDTH
+import settings.*
 import util.Matter
 import util.ZoneUtils
 import util.jsObject
 
-class ProjectileEngine(private val matrix: Matrix, private val projectiles: ArrayList<Projectile>) {
+class ProjectileEngine(
+    private val matrix: Matrix, private val projectiles: ArrayList<Projectile>,
+    private val engine: GameEngine
+) {
 
     fun processProjectiles(delta: Float) {
-        for (projectile in projectiles) {
-            moveProjectile(delta, projectile)
-        }
+        for (projectile in projectiles) moveProjectile(delta, projectile)
     }
 
     private fun moveProjectile(delta: Float, projectile: Projectile) {
@@ -28,6 +28,53 @@ class ProjectileEngine(private val matrix: Matrix, private val projectiles: Arra
         }
 
         Matter.Body.setPosition(projectile.bounds, newPosition)
+
+        if (projectile.bounds.position.x < WALL_SPRITE_WIDTH ||
+            projectile.bounds.position.x > MAP_WIDTH - WALL_SPRITE_WIDTH ||
+            projectile.bounds.position.y < WALL_SPRITE_HEIGHT ||
+            projectile.bounds.y > MAP_HEIGHT - WALL_SPRITE_HEIGHT
+        ) return removeProjectile(projectile)
+
+        val oldZones = ArrayList(projectile.zones)
+
+        projectile.zones.clear()
+        projectile.zones.addAll(ZoneUtils.getZonesForBounds(projectile.bounds))
+
+        oldZones.filter { !projectile.zones.contains(it) }.forEach { matrix.projectiles[it]?.remove(projectile) }
+
+        projectile.zones.filter { !oldZones.contains(it) }.forEach {
+            matrix.projectiles[it]?.add(projectile) ?: run {
+                matrix.projectiles[it] = ArrayList()
+                matrix.projectiles[it]?.add(projectile)
+            }
+        }
+
+        if (checkAgentCollisions(projectile)) return removeProjectile(projectile)
+        if (checkWallCollisions(projectile)) return removeProjectile(projectile)
+    }
+
+    private fun checkAgentCollisions(projectile: Projectile): Boolean {
+        for (zone in projectile.zones) {
+            if (matrix.agents[zone] != null) for (agent in matrix.agents[zone]!!) {
+                if (!agent.dead && !agent.invincible && projectile.agentId != agent.id &&
+                    Matter.SAT.collides(agent.bounds, projectile.bounds).collided as Boolean
+                ) {
+                    agent.health -= projectile.damage.toInt()
+                    if (agent.dead) engine.addAgentKill(projectile.agentId)
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    private fun checkWallCollisions(projectile: Projectile): Boolean {
+        for (zone in projectile.zones) {
+            if (matrix.walls[zone] != null) for (wall in matrix.walls[zone]!!) {
+                if (Matter.SAT.collides(wall.bounds, projectile.bounds) as Boolean) return true
+            }
+        }
+        return false
     }
 
     fun spawnProjectile(agent: Agent, dataBroadcaster: DataBroadcaster) {
