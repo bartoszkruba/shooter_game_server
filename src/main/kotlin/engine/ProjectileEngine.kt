@@ -21,7 +21,6 @@ class ProjectileEngine(
             for (projectile in projectiles) moveProjectile(delta, projectile)
         } catch (ex: Exception) {
             println(ex.message)
-            println(ex.cause)
         }
     }
 
@@ -120,7 +119,6 @@ class ProjectileEngine(
         projectile.zones.addAll(ZoneUtils.getZonesForBounds(projectile.bounds))
         projectiles.add(projectile)
         for (zone in projectile.zones) matrix.projectiles[zone]?.add(projectile) ?: run {
-            println("creating new zone: $zone")
             matrix.projectiles[zone] = ArrayList()
             matrix.projectiles[zone]?.add(projectile)
         }

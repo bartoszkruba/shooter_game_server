@@ -12,8 +12,13 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
 
     fun processAgentActions(delta: Float) {
         for (agent in agents) {
-            processMoveControls(agent, delta)
-            processWeaponControls(agent)
+            try {
+                processMoveControls(agent, delta)
+                processWeaponControls(agent)
+
+            } catch (ex: Exception) {
+                println(ex.message)
+            }
         }
     }
 

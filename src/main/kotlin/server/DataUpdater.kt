@@ -84,7 +84,8 @@ class DataUpdater(
             for (agent in agents) {
                 val projData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
-                for (zone in agent.zones) {
+
+                for (zone in agent.viewportZones) {
                     matrix.projectiles[zone]?.let {
                         for (projectile in it) {
                             if (ids.contains(projectile.id)) continue
