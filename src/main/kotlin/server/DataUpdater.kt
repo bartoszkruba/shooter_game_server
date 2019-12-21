@@ -52,25 +52,23 @@ class DataUpdater(
                 val agData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
 
-                for (zone in agent.viewportZones) {
-                    matrix.agents[zone]?.forEach {
-                        if (!ids.contains(it.id)) {
-                            ids.add(it.id)
-                            agData.add(jsObject {
-                                x = it.bounds.bounds.min.x
-                                y = it.bounds.bounds.min.y
-                                name = it.name
-                                xVelocity = it.velocity.x * PLAYER_MOVEMENT_SPEED
-                                yVelocity = it.velocity.y * PLAYER_MOVEMENT_SPEED
-                                bulletsLeft = if (it.weapon.reloadMark == -1.0) it.weapon.bulletsInChamber else -1
-                                isDead = it.dead
-                                currentHealth = it.health
-                                id = it.id
-                                weapon = it.weapon.projectileType
-                                angle = it.directionAngle
-                                inv = it.invincible
-                            })
-                        }
+                for (zone in agent.viewportZones) matrix.agents[zone]?.forEach {
+                    if (!ids.contains(it.id)) {
+                        ids.add(it.id)
+                        agData.add(jsObject {
+                            x = it.bounds.bounds.min.x
+                            y = it.bounds.bounds.min.y
+                            name = it.name
+                            xVelocity = it.velocity.x * PLAYER_MOVEMENT_SPEED
+                            yVelocity = it.velocity.y * PLAYER_MOVEMENT_SPEED
+                            bulletsLeft = if (it.weapon.reloadMark == -1.0) it.weapon.bulletsInChamber else -1
+                            isDead = it.dead
+                            currentHealth = it.health
+                            id = it.id
+                            weapon = it.weapon.projectileType
+                            angle = it.directionAngle
+                            inv = it.invincible
+                        })
                     }
                 }
                 socketIo.to(agent.id).emit("agentData", jsObject { agentData = agData })
@@ -85,26 +83,49 @@ class DataUpdater(
                 val projData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
 
-                for (zone in agent.viewportZones) {
-                    matrix.projectiles[zone]?.let {
-                        for (projectile in it) {
-                            if (ids.contains(projectile.id)) continue
-                            ids.add(projectile.id)
-                            projData.add(jsObject {
-                                x = projectile.bounds.position.x
-                                y = projectile.bounds.position.y
-                                id = projectile.id
-                                xSpeed = projectile.velocity.x
-                                ySpeed = projectile.velocity.y
-                                type = projectile.type
-                                agentId = projectile.agentId
-                            })
-                        }
+                for (zone in agent.viewportZones) matrix.projectiles[zone]?.let {
+                    for (projectile in it) {
+                        if (ids.contains(projectile.id)) continue
+                        ids.add(projectile.id)
+                        projData.add(jsObject {
+                            x = projectile.bounds.position.x
+                            y = projectile.bounds.position.y
+                            id = projectile.id
+                            xSpeed = projectile.velocity.x
+                            ySpeed = projectile.velocity.y
+                            type = projectile.type
+                            agentId = projectile.agentId
+                        })
                     }
                 }
+
                 socketIo.to(agent.id).emit("projectileData", jsObject { projectileData = projData })
             }
             delay(1000L / PROJECTILE_UPDATES_PER_SECOND)
+        }
+    }
+
+    fun pickupDataLoop(gameEngine: GameEngine) = launch {
+        while (gameEngine.continueLooping) {
+            for (agent in agents) {
+                val pickData = ArrayList<dynamic>()
+                val ids = ArrayList<String>()
+
+                for (zone in agent.zones) matrix.pickups[zone]?.let {
+                    for (pickup in it) {
+                        if (ids.contains(pickup.id)) continue
+                        ids.add(pickup.id)
+                        pickData.add(jsObject {
+                            x = pickup.x
+                            y = pickup.y
+                            type = pickup.type
+                            id = pickup.id
+                        })
+                    }
+                }
+                socketIo.to(agent.id).emit("pickupData", jsObject { pickupData = pickData })
+            }
+            delay(1000L / PICKUP_UPDATES_PER_SECOND)
         }
     }
 

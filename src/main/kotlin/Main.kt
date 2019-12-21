@@ -50,6 +50,7 @@ fun main() {
     gameEngine.start()
     dataUpdater.agentDataLoop(gameEngine)
     dataUpdater.projectileDataLoop(gameEngine)
+    dataUpdater.pickupDataLoop(gameEngine)
 }
 
 private fun configureSocketEvents(socket: dynamic, gameEngine: GameEngine) {
