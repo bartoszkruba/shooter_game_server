@@ -27,6 +27,7 @@ class Agent(
     var downPressed = false
     var rightPressed = false
     var leftPressed = false
+    var reloadPressed = false
     var shootPressed = false
     var pickWeapon = false
 
@@ -63,8 +64,4 @@ class Agent(
 
     val bounds = Matter.Bodies.rectangle(x, y, PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_HEIGHT)
     val velocity = Velocity()
-
-    init {
-
-    }
 }

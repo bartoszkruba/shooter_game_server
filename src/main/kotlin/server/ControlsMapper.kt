@@ -11,6 +11,7 @@ class ControlsMapper {
                 data["A"] != null -> engine.setAgentKeyPressed(agentId, Key.LEFT)
                 data["S"] != null -> engine.setAgentKeyPressed(agentId, Key.DOWN)
                 data["D"] != null -> engine.setAgentKeyPressed(agentId, Key.RIGHT)
+                data["R"] != null -> engine.setAgentKeyPressed(agentId, Key.RELOAD)
             }
         }
 
@@ -20,6 +21,7 @@ class ControlsMapper {
                 data["A"] != null -> engine.setAgentKeyReleased(agentId, Key.LEFT)
                 data["S"] != null -> engine.setAgentKeyReleased(agentId, Key.DOWN)
                 data["D"] != null -> engine.setAgentKeyReleased(agentId, Key.RIGHT)
+                data["R"] != null -> engine.setAgentKeyReleased(agentId, Key.RELOAD)
             }
         }
 

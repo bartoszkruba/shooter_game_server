@@ -6,7 +6,7 @@ import util.Matter
 import util.ZoneUtils
 import util.jsObject
 
-enum class Key { UP, DOWN, LEFT, RIGHT }
+enum class Key { UP, DOWN, LEFT, RIGHT, RELOAD }
 
 class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agent>, private val engine: GameEngine) {
 
@@ -123,6 +123,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
             Key.DOWN -> it.downPressed = true
             Key.LEFT -> it.leftPressed = true
             Key.RIGHT -> it.rightPressed = true
+            Key.RELOAD -> it.reloadPressed = true
         }
         updateAgentVelocity(it)
     }
@@ -133,6 +134,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
             Key.DOWN -> it.downPressed = false
             Key.LEFT -> it.leftPressed = false
             Key.RIGHT -> it.rightPressed = false
+            Key.RELOAD -> it.reloadPressed = false
         }
         updateAgentVelocity(it)
     }
