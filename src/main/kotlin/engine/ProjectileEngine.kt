@@ -2,6 +2,7 @@ package engine
 
 import models.agents.Agent
 import models.physics.Point
+import models.projectiles.MachineGunProjectile
 import models.projectiles.PistolProjectile
 import models.projectiles.Projectile
 import models.projectiles.ProjectileType
@@ -108,6 +109,7 @@ class ProjectileEngine(
 
         val projectile = when (type) {
             ProjectileType.PISTOL -> PistolProjectile(x, y, xSpeed, ySpeed, agentId)
+            ProjectileType.MACHINE_GUN -> MachineGunProjectile(x, y, xSpeed, ySpeed, agentId)
             else -> PistolProjectile(x, y, xSpeed, ySpeed, agentId)
         }
 
