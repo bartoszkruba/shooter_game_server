@@ -5,11 +5,11 @@ import kotlin.js.Date
 abstract class Weapon(
     val reloadTime: Int,
     var bulletsInChamber: Int,
-    private val magazineRefillTime: Int,
-    private val magazineCapacity: Int,
+    val magazineRefillTime: Int,
+    val magazineCapacity: Int,
     val projectileType: String
 ) {
-    var reloadMark = -1
+    var reloadMark = -1.0
     private var lastShoot = 0.0
 
     var canShoot: Boolean = false

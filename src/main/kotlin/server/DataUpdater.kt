@@ -62,7 +62,7 @@ class DataUpdater(
                                 name = it.name
                                 xVelocity = it.velocity.x * PLAYER_MOVEMENT_SPEED
                                 yVelocity = it.velocity.y * PLAYER_MOVEMENT_SPEED
-                                bulletsLeft = if (it.weapon.reloadMark == -1) it.weapon.bulletsInChamber else -1
+                                bulletsLeft = if (it.weapon.reloadMark == -1.0) it.weapon.bulletsInChamber else -1
                                 isDead = it.dead
                                 currentHealth = it.health
                                 id = it.id
