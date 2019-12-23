@@ -1,6 +1,5 @@
 package models.agents
 
-import models.IdObject
 import models.physics.Velocity
 import models.weapons.Pistol
 import models.weapons.Weapon
@@ -44,16 +43,16 @@ class Agent(
     var invincible = true
         private set
         get() {
-            return if (lasRespawn < Date().getTime() - INVINCIBILITY_DURATION * 1000) {
+            return if (lastRespawn < Date().getTime() - INVINCIBILITY_DURATION * 1000) {
                 field = false
-                false
+                field
             } else {
                 field = true
-                true
+                field
             }
         }
 
-    var lasRespawn = 0L
+    var lastRespawn = 0.0
 
     var dead = false
         private set

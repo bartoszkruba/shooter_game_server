@@ -151,6 +151,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
             y = yClmap
         })
 
+        agent.lastRespawn = Date().getTime()
         agents.add(agent)
         agent.zones.addAll(ZoneUtils.getZonesForBounds(agent.bounds))
 
