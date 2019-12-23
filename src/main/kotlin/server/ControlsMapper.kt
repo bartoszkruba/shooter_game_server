@@ -38,5 +38,9 @@ class ControlsMapper {
         fun processRotationChange(data: dynamic, agentId: String, engine: GameEngine) {
             engine.setAgentRotation(agentId, data.degrees as Float)
         }
+
+        fun processPickWeaponPressed(agentId: String, engine: GameEngine) {
+            engine.setAgentPickWeapon(agentId, true)
+        }
     }
 }

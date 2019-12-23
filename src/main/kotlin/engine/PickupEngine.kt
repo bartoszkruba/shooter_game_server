@@ -86,4 +86,37 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
     }
 
     fun shouldRespawn() = Date().getTime() - lastRespawn > WEAPON_RESPAWN_RATE * 1000
+
+    fun removePickup(pickup: Pickup) {
+        for (zone in pickup.zones) {
+            matrix.pickups[zone]?.remove(pickup)
+        }
+        pickups.remove(pickup)
+    }
+
+    fun spawnPickup(x: Float, y: Float, type: String, ammunition: Int) {
+        val pickup = when (type) {
+            ProjectileType.MACHINE_GUN -> MachineGunPickup(
+                x = x,
+                y = y,
+                ammunition = ammunition
+            )
+            ProjectileType.PISTOL -> PistolPickup(
+                x = x,
+                y = y,
+                ammunition = ammunition
+            )
+            else -> PistolPickup(
+                x = x,
+                y = y,
+                ammunition = ammunition
+            )
+        }
+        pickup.zones.addAll(ZoneUtils.getZonesForBounds(pickup.bounds))
+        for (zone in pickup.zones) matrix.pickups[zone]?.add(pickup) ?: run {
+            matrix.pickups[zone] = ArrayList()
+            matrix.pickups[zone]!!.add(pickup)
+        }
+        pickups.add(pickup)
+    }
 }

@@ -1,6 +1,10 @@
 package engine
 
 import models.agents.Agent
+import models.pickups.Pickup
+import models.projectiles.ProjectileType
+import models.weapons.MachineGun
+import models.weapons.Pistol
 import settings.*
 import util.Matter
 import util.ZoneUtils
@@ -46,9 +50,40 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
             agent.weapon.reloadMark = -1.0
         }
 
+        if (agent.pickWeapon) {
+            agent.pickWeapon = false
+            pickWeapon(agent)
+            return
+        }
+
         if (agent.shootPressed && agent.weapon.canShoot && !agent.dead) {
             agent.weapon.shoot()
             engine.spawnProjectile(agent)
+        }
+    }
+
+    private fun pickWeapon(agent: Agent) {
+        var foundPickup: Pickup? = null
+
+        for (zone in agent.zones) {
+            if (foundPickup != null) break
+            if (matrix.pickups[zone] != null) for (pickup in matrix.pickups[zone]!!) {
+                if (Matter.SAT.collides(pickup.bounds, agent.bounds).collided as Boolean) {
+                    foundPickup = pickup
+                    break
+                }
+            }
+        }
+
+        if (foundPickup == null) return
+
+        engine.removePickup(foundPickup)
+        engine.spawnPickup(foundPickup.x, foundPickup.y, agent.weapon.projectileType, agent.weapon.bulletsInChamber)
+
+        agent.weapon = when (foundPickup.type) {
+            ProjectileType.MACHINE_GUN -> MachineGun(foundPickup.ammunition)
+            ProjectileType.PISTOL -> Pistol(foundPickup.ammunition)
+            else -> Pistol(foundPickup.ammunition)
         }
     }
 
@@ -180,6 +215,10 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
 
     fun setAgentRotation(agentId: String, rotation: Float) {
         agents.find { it.id == agentId }?.directionAngle = rotation
+    }
+
+    fun setAgentPickWeapon(agentId: String, value: Boolean) {
+        agents.find { it.id == agentId }?.pickWeapon = value
     }
 
     fun addAgentKill(agentId: String) {
