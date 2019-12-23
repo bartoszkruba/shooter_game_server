@@ -12,4 +12,5 @@ abstract class Pickup(
     var ammunition: Int
 ) : IdObject() {
     val bounds = Matter.Bodies.rectangle(x, y, width, height)
+    val zones = ArrayList<String>()
 }

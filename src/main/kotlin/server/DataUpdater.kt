@@ -111,7 +111,7 @@ class DataUpdater(
                 val pickData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
 
-                for (zone in agent.zones) matrix.pickups[zone]?.let {
+                for (zone in agent.viewportZones) matrix.pickups[zone]?.let {
                     for (pickup in it) {
                         if (ids.contains(pickup.id)) continue
                         ids.add(pickup.id)

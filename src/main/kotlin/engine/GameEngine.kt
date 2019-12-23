@@ -2,6 +2,7 @@ package engine
 
 import models.agents.Agent
 import models.obstacles.Wall
+import models.pickups.Pickup
 import models.projectiles.Projectile
 import server.DataBroadcaster
 import util.delay
@@ -13,9 +14,11 @@ class GameEngine {
     val walls = ArrayList<Wall>()
     val agents = ArrayList<Agent>()
     val projectiles = ArrayList<Projectile>()
+    val pickups = ArrayList<Pickup>()
 
     private val agentEngine = AgentEngine(matrix, agents, this)
     private val projectileEngine = ProjectileEngine(matrix, projectiles, this)
+    private val pickupEngine = PickupEngine(matrix, pickups, this)
     private val wallEngine = WallEngine(matrix, walls)
 
     var dataBroadcaster: DataBroadcaster? = null
@@ -40,6 +43,8 @@ class GameEngine {
         while (continueLooping) {
             currentTime = Date().getTime()
             delta = (currentTime - lastLoop).toFloat() / 1000f
+
+            if (pickupEngine.shouldRespawn()) pickupEngine.respawnPickups()
 
             agentEngine.processAgentActions(delta)
             projectileEngine.processProjectiles(delta)

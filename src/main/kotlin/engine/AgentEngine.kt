@@ -36,14 +36,12 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
     private fun processWeaponControls(agent: Agent) {
         if (agent.reloadPressed && agent.weapon.reloadMark == -1.0) {
             if (agent.weapon.bulletsInChamber != agent.weapon.magazineCapacity) {
-                println("Setting reload mark")
                 agent.weapon.reloadMark = Date().getTime()
                 agent.weapon.bulletsInChamber = 0
             }
         }
 
         if (agent.weapon.reloadMark != -1.0 && Date().getTime() - agent.weapon.reloadMark > agent.weapon.magazineRefillTime) {
-            println("reloading")
             agent.weapon.reload()
             agent.weapon.reloadMark = -1.0
         }

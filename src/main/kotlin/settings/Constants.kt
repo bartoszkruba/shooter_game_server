@@ -7,6 +7,10 @@ const val SCOREBOARD_UPDATES_PER_SECOND = 1
 
 const val MAP_OBJECTS_COUNT = 45
 
+const val WEAPON_RESPAWN_RATE = 60 // seconds
+const val MACHINE_GUNS_ON_MAP = 7
+const val PISTOLS_ON_MAP = 2
+
 const val MAP_WIDTH = 6400
 const val MAP_HEIGHT = 3600
 
