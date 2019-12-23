@@ -10,6 +10,7 @@ import util.Matter
 import util.ZoneUtils
 import util.jsObject
 import kotlin.js.Date
+import kotlin.random.Random
 
 enum class Key { UP, DOWN, LEFT, RIGHT, RELOAD }
 
@@ -129,6 +130,50 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
                 matrix.agents[zone] = ArrayList()
                 matrix.agents[zone]?.add(agent)
             }
+        }
+    }
+
+    fun addAgentAtRandomPlace(id: String) {
+        val agent = Agent(id = id)
+        moveAgentToRandomPlace(agent)
+        agents.add(agent)
+    }
+
+    private fun moveAgentToRandomPlace(agent: Agent) {
+        val minX = WALL_SPRITE_WIDTH + PLAYER_SPRITE_WIDTH
+        val maxX = MAP_WIDTH - WALL_SPRITE_WIDTH - PLAYER_SPRITE_WIDTH
+        val minY = WALL_SPRITE_HEIGHT + PLAYER_SPRITE_HEIGHT
+        val maxY = MAP_HEIGHT - WALL_SPRITE_HEIGHT - PLAYER_SPRITE_HEIGHT
+
+        while (true) {
+            var collided = false
+
+            Matter.Body.setPosition(agent.bounds, jsObject {
+                x = Random.nextInt(minX, maxX)
+                y = Random.nextInt(minY, maxY)
+            })
+
+            for (zone in ZoneUtils.getZonesForBounds(agent.bounds)) {
+                if (collided) break
+                if (matrix.walls[zone] != null) for (wall in matrix.walls[zone]!!) {
+                    if (Matter.SAT.collides(agent.bounds, wall.bounds).collided as Boolean) {
+                        collided = true
+                        break
+                    }
+                }
+            }
+
+            if (!collided) break
+        }
+
+        val oldZones = ArrayList(agent.zones)
+        agent.zones.clear()
+        agent.zones.addAll(ZoneUtils.getZonesForBounds(agent.bounds))
+
+        oldZones.filter { !agent.zones.contains(it) }.forEach { matrix.agents[it]?.remove(agent) }
+        for (zone in agent.zones) matrix.agents[zone]?.add(agent) ?: run {
+            matrix.agents[zone] = ArrayList()
+            matrix.agents[zone]!!.add(agent)
         }
     }
 

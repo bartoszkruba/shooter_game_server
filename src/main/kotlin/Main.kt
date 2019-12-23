@@ -41,7 +41,7 @@ fun main() {
         }
 
         configureSocketEvents(socket, gameEngine)
-        gameEngine.addAgent(socket.id.toString(), 500, 500)
+        gameEngine.addAgentAtRandomPlace(socket.id.toString())
         dataUpdater.sendSocketId(socket)
         dataUpdater.sendWallData(socket)
     }

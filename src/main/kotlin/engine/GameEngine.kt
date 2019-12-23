@@ -56,6 +56,7 @@ class GameEngine {
 
 
     fun addAgent(id: String, x: Int, y: Int) = agentEngine.addAgent(id, x, y)
+    fun addAgentAtRandomPlace(id: String) = agentEngine.addAgentAtRandomPlace(id)
     fun removeAgent(id: String) = agentEngine.removeAgent(id)
     fun setAgentKeyPressed(agentId: String, key: Key) = agentEngine.setKeyPressed(agentId, key)
     fun setAgentKeyReleased(agentId: String, key: Key) = agentEngine.setKeyReleased(agentId, key)
@@ -70,5 +71,6 @@ class GameEngine {
 
     fun spawnPickup(x: Float, y: Float, type: String, ammunition: Int) =
         pickupEngine.spawnPickup(x, y, type, ammunition)
+
     fun removePickup(pickup: Pickup) = pickupEngine.removePickup(pickup)
 }
