@@ -44,7 +44,6 @@ class ControlsMapper {
         }
 
         fun processRespawn(agentId: String, engine: GameEngine) {
-            println("respawning")
             engine.respawnAgent(agentId)
         }
     }
