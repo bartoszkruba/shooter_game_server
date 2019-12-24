@@ -8,8 +8,9 @@ const val SCOREBOARD_UPDATES_PER_SECOND = 1
 const val MAP_OBJECTS_COUNT = 45
 
 const val WEAPON_RESPAWN_RATE = 60 // seconds
-const val MACHINE_GUNS_ON_MAP = 7
 const val PISTOLS_ON_MAP = 2
+const val MACHINE_GUNS_ON_MAP = 7
+const val SHOTGUNS_ON_MAP = 7
 
 const val MAP_WIDTH = 6400
 const val MAP_HEIGHT = 3600
@@ -53,6 +54,9 @@ const val SHOTGUN_BULLET_SPEED = 700f
 const val SHOTGUN_BULLETS_IN_CHAMBER = 10
 const val SHOTGUN_MAGAZINE_REFILL_TIME = 1300
 const val SHOTGUN_PROJECTILE_DAMAGE = 25f
+
+const val SHOTGUN_SPREAD = 15 //degrees
+const val SHOTGUN_PROJECTILES_FIRED = 10
 
 const val SHOTGUN_SPRITE_WIDTH = 45
 const val SHOTGUN_SPRITE_HEIGHT = 30

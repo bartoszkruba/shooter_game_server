@@ -11,6 +11,7 @@ import settings.*
 import util.Matter
 import util.ZoneUtils
 import util.jsObject
+import kotlin.random.Random
 
 class ProjectileEngine(
     private val matrix: Matrix, private val projectiles: ArrayList<Projectile>,
@@ -84,24 +85,34 @@ class ProjectileEngine(
     fun spawnProjectile(agent: Agent, dataBroadcaster: DataBroadcaster) {
         val xCentre = agent.bounds.position.x as Float
         val yCentre = agent.bounds.position.y as Float
-        val edgePoint = projectToPlayerRectEdge(agent.directionAngle)
 
-        edgePoint.x += xCentre - PLAYER_SPRITE_WIDTH / 2
-        edgePoint.y += yCentre - PLAYER_SPRITE_HEIGHT / 2
+        if (agent.weapon.projectileType == ProjectileType.SHOTGUN) repeat(SHOTGUN_PROJECTILES_FIRED) {
+            val edgePoint = projectToPlayerRectEdge(agent.directionAngle)
 
-        spawnProjectile(
-            edgePoint.x,
-            edgePoint.y,
-            agent.directionAngle,
-            agent.id,
-            agent.weapon.projectileType,
-            dataBroadcaster
-        )
+            edgePoint.x += xCentre - PLAYER_SPRITE_WIDTH / 2
+            edgePoint.y += yCentre - PLAYER_SPRITE_HEIGHT / 2
+            val angle = agent.directionAngle + Random.nextInt(-SHOTGUN_SPREAD, SHOTGUN_SPREAD)
+
+            spawnProjectile(
+                edgePoint.x, edgePoint.y, angle, agent.id, agent.weapon.projectileType,
+                dataBroadcaster
+            )
+        }
+        else {
+            val edgePoint = projectToPlayerRectEdge(agent.directionAngle)
+
+            edgePoint.x += xCentre - PLAYER_SPRITE_WIDTH / 2
+            edgePoint.y += yCentre - PLAYER_SPRITE_HEIGHT / 2
+
+            spawnProjectile(
+                edgePoint.x, edgePoint.y, agent.directionAngle, agent.id, agent.weapon.projectileType,
+                dataBroadcaster
+            )
+        }
     }
 
     private fun spawnProjectile(
-        x: Float, y: Float, angle: Float, agentId: String, type: String,
-        dataBroadcaster: DataBroadcaster
+        x: Float, y: Float, angle: Float, agentId: String, type: String, dataBroadcaster: DataBroadcaster
     ) {
 
         val xSpeed = kotlin.math.cos(kotlin.math.PI / 180f * angle).toFloat()

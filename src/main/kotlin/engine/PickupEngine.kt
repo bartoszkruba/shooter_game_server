@@ -3,6 +3,7 @@ package engine
 import models.pickups.MachineGunPickup
 import models.pickups.Pickup
 import models.pickups.PistolPickup
+import models.pickups.ShotgunPickup
 import models.projectiles.ProjectileType
 import settings.*
 import util.Matter
@@ -23,6 +24,7 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
         try {
             repeat(MACHINE_GUNS_ON_MAP) { respawnPickup(ProjectileType.MACHINE_GUN) }
             repeat(PISTOLS_ON_MAP) { respawnPickup(ProjectileType.PISTOL) }
+            repeat(SHOTGUNS_ON_MAP) { respawnPickup(ProjectileType.SHOTGUN) }
         } catch (ex: Exception) {
             println(ex.message)
         }
@@ -39,19 +41,14 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
         val minY = WALL_SPRITE_HEIGHT + 0.5f * PLAYER_SPRITE_HEIGHT
         val maxY = MAP_HEIGHT - WALL_SPRITE_HEIGHT - 0.5f * PLAYER_SPRITE_HEIGHT
 
+        val xPos = Random.nextInt(minX.toInt(), maxX.toInt()).toFloat()
+        val yPos = Random.nextInt(minY.toInt(), maxY.toInt()).toFloat()
+
         val pickup = when (type) {
-            ProjectileType.PISTOL -> PistolPickup(
-                x = Random.nextInt(minX.toInt(), maxX.toInt()).toFloat(),
-                y = Random.nextInt(minY.toInt(), maxY.toInt()).toFloat()
-            )
-            ProjectileType.MACHINE_GUN -> MachineGunPickup(
-                x = Random.nextInt(minX.toInt(), maxX.toInt()).toFloat(),
-                y = Random.nextInt(minY.toInt(), maxY.toInt()).toFloat()
-            )
-            else -> PistolPickup(
-                x = Random.nextInt(minX.toInt(), maxX.toInt()).toFloat(),
-                y = Random.nextInt(minY.toInt(), maxY.toInt()).toFloat()
-            )
+            ProjectileType.PISTOL -> PistolPickup(xPos, yPos)
+            ProjectileType.MACHINE_GUN -> MachineGunPickup(xPos, yPos)
+            ProjectileType.SHOTGUN -> ShotgunPickup(xPos, yPos)
+            else -> PistolPickup(xPos, yPos)
         }
 
         while (true) {
@@ -96,21 +93,10 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
 
     fun spawnPickup(x: Float, y: Float, type: String, ammunition: Int) {
         val pickup = when (type) {
-            ProjectileType.MACHINE_GUN -> MachineGunPickup(
-                x = x,
-                y = y,
-                ammunition = ammunition
-            )
-            ProjectileType.PISTOL -> PistolPickup(
-                x = x,
-                y = y,
-                ammunition = ammunition
-            )
-            else -> PistolPickup(
-                x = x,
-                y = y,
-                ammunition = ammunition
-            )
+            ProjectileType.MACHINE_GUN -> MachineGunPickup(x, y, ammunition)
+            ProjectileType.PISTOL -> PistolPickup(x, y, ammunition)
+            ProjectileType.SHOTGUN -> ShotgunPickup(x, y, ammunition)
+            else -> PistolPickup(x, y, ammunition)
         }
         pickup.zones.addAll(ZoneUtils.getZonesForBounds(pickup.bounds))
         for (zone in pickup.zones) matrix.pickups[zone]?.add(pickup) ?: run {

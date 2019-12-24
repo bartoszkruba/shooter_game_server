@@ -5,6 +5,7 @@ import models.pickups.Pickup
 import models.projectiles.ProjectileType
 import models.weapons.MachineGun
 import models.weapons.Pistol
+import models.weapons.Shotgun
 import settings.*
 import util.Matter
 import util.ZoneUtils
@@ -84,6 +85,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         agent.weapon = when (foundPickup.type) {
             ProjectileType.MACHINE_GUN -> MachineGun(foundPickup.ammunition)
             ProjectileType.PISTOL -> Pistol(foundPickup.ammunition)
+            ProjectileType.SHOTGUN -> Shotgun(foundPickup.ammunition)
             else -> Pistol(foundPickup.ammunition)
         }
     }
