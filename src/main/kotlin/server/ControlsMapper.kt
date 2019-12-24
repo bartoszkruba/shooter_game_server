@@ -42,5 +42,10 @@ class ControlsMapper {
         fun processPickWeaponPressed(agentId: String, engine: GameEngine) {
             engine.setAgentPickWeapon(agentId, true)
         }
+
+        fun processRespawn(agentId: String, engine: GameEngine) {
+            println("respawning")
+            engine.respawnAgent(agentId)
+        }
     }
 }

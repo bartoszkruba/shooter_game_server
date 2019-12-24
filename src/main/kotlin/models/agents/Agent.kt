@@ -37,7 +37,10 @@ class Agent(
                 field = 0
                 if (!this.dead) this.deaths++
                 this.dead = true
-            } else field = value
+            } else {
+                this.dead = false
+                field = value
+            }
         }
 
     var invincible = true

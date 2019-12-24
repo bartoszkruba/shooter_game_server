@@ -57,6 +57,7 @@ class GameEngine {
 
     fun addAgent(id: String, x: Int, y: Int) = agentEngine.addAgent(id, x, y)
     fun addAgentAtRandomPlace(id: String) = agentEngine.addAgentAtRandomPlace(id)
+    fun respawnAgent(id: String) = agentEngine.respawnAgent(id)
     fun removeAgent(id: String) = agentEngine.removeAgent(id)
     fun setAgentKeyPressed(agentId: String, key: Key) = agentEngine.setKeyPressed(agentId, key)
     fun setAgentKeyReleased(agentId: String, key: Key) = agentEngine.setKeyReleased(agentId, key)

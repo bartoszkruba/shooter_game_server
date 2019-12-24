@@ -133,6 +133,14 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         }
     }
 
+    fun respawnAgent(id: String) = agents.find { it.id == id }?.let {
+        if (!it.dead) return@let
+
+        moveAgentToRandomPlace(it)
+        it.health = PLAYER_BASE_HEALTH
+        it.weapon = Pistol()
+    }
+
     fun addAgentAtRandomPlace(id: String) {
         val agent = Agent(id = id)
         moveAgentToRandomPlace(agent)
