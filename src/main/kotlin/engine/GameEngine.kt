@@ -20,6 +20,7 @@ class GameEngine {
     private val projectileEngine = ProjectileEngine(matrix, projectiles, this)
     private val pickupEngine = PickupEngine(matrix, pickups, this)
     private val wallEngine = WallEngine(matrix, walls)
+    private val explosionEngine = ExplosionEngine(matrix, this)
 
     var dataBroadcaster: DataBroadcaster? = null
 
@@ -74,4 +75,7 @@ class GameEngine {
         pickupEngine.spawnPickup(x, y, type, ammunition)
 
     fun removePickup(pickup: Pickup) = pickupEngine.removePickup(pickup)
+
+    fun spawnExplosion(x: Float, y: Float, agentId: String, type: String) =
+        explosionEngine.spawnExplosion(x, y, agentId, type, dataBroadcaster!!)
 }

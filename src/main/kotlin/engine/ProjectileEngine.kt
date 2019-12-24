@@ -1,6 +1,7 @@
 package engine
 
 import models.agents.Agent
+import models.explosions.ExplosionType
 import models.physics.Point
 import models.projectiles.*
 import server.DataBroadcaster
@@ -11,8 +12,7 @@ import util.jsObject
 import kotlin.random.Random
 
 class ProjectileEngine(
-    private val matrix: Matrix, private val projectiles: ArrayList<Projectile>,
-    private val engine: GameEngine
+    private val matrix: Matrix, private val projectiles: ArrayList<Projectile>, private val engine: GameEngine
 ) {
 
     fun processProjectiles(delta: Float) {
@@ -35,7 +35,16 @@ class ProjectileEngine(
             projectile.bounds.position.x > MAP_WIDTH - WALL_SPRITE_WIDTH ||
             projectile.bounds.position.y < WALL_SPRITE_HEIGHT ||
             projectile.bounds.y > MAP_HEIGHT - WALL_SPRITE_HEIGHT
-        ) return removeProjectile(projectile)
+        ) {
+            if (projectile.type == ProjectileType.BAZOOKA)
+                engine.spawnExplosion(
+                    projectile.bounds.position.x as Float,
+                    projectile.bounds.position.x as Float,
+                    projectile.agentId,
+                    ExplosionType.BAZOOKA
+                )
+            return removeProjectile(projectile)
+        }
 
         val oldZones = ArrayList(projectile.zones)
 
@@ -51,8 +60,26 @@ class ProjectileEngine(
             }
         }
 
-        if (checkAgentCollisions(projectile)) return removeProjectile(projectile)
-        if (checkWallCollisions(projectile)) return removeProjectile(projectile)
+        if (checkAgentCollisions(projectile)) {
+            if (projectile.type == ProjectileType.BAZOOKA)
+                engine.spawnExplosion(
+                    projectile.bounds.position.x as Float,
+                    projectile.bounds.position.x as Float,
+                    projectile.agentId,
+                    ExplosionType.BAZOOKA
+                )
+            return removeProjectile(projectile)
+        }
+        if (checkWallCollisions(projectile)) {
+            if (projectile.type == ProjectileType.BAZOOKA)
+                engine.spawnExplosion(
+                    projectile.bounds.position.x as Float,
+                    projectile.bounds.position.x as Float,
+                    projectile.agentId,
+                    ExplosionType.BAZOOKA
+                )
+            return removeProjectile(projectile)
+        }
     }
 
     private fun checkAgentCollisions(projectile: Projectile): Boolean {
