@@ -2,10 +2,7 @@ package engine
 
 import models.agents.Agent
 import models.physics.Point
-import models.projectiles.MachineGunProjectile
-import models.projectiles.PistolProjectile
-import models.projectiles.Projectile
-import models.projectiles.ProjectileType
+import models.projectiles.*
 import server.DataBroadcaster
 import settings.*
 import util.Matter
@@ -121,6 +118,8 @@ class ProjectileEngine(
         val projectile = when (type) {
             ProjectileType.PISTOL -> PistolProjectile(x, y, xSpeed, ySpeed, agentId)
             ProjectileType.MACHINE_GUN -> MachineGunProjectile(x, y, xSpeed, ySpeed, agentId)
+            ProjectileType.SHOTGUN -> ShotgunProjectile(x, y, xSpeed, ySpeed, agentId)
+            ProjectileType.BAZOOKA -> BazookaProjectile(x, y, xSpeed, ySpeed, agentId)
             else -> PistolProjectile(x, y, xSpeed, ySpeed, agentId)
         }
 

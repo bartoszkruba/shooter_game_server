@@ -1,9 +1,6 @@
 package engine
 
-import models.pickups.MachineGunPickup
-import models.pickups.Pickup
-import models.pickups.PistolPickup
-import models.pickups.ShotgunPickup
+import models.pickups.*
 import models.projectiles.ProjectileType
 import settings.*
 import util.Matter
@@ -25,6 +22,7 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
             repeat(MACHINE_GUNS_ON_MAP) { respawnPickup(ProjectileType.MACHINE_GUN) }
             repeat(PISTOLS_ON_MAP) { respawnPickup(ProjectileType.PISTOL) }
             repeat(SHOTGUNS_ON_MAP) { respawnPickup(ProjectileType.SHOTGUN) }
+            repeat(BAZOOKAS_ON_MAP) { respawnPickup(ProjectileType.BAZOOKA) }
         } catch (ex: Exception) {
             println(ex.message)
         }
@@ -47,6 +45,7 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
         val pickup = when (type) {
             ProjectileType.PISTOL -> PistolPickup(xPos, yPos)
             ProjectileType.MACHINE_GUN -> MachineGunPickup(xPos, yPos)
+            ProjectileType.BAZOOKA -> BazookaPickup(xPos, yPos)
             ProjectileType.SHOTGUN -> ShotgunPickup(xPos, yPos)
             else -> PistolPickup(xPos, yPos)
         }
@@ -96,6 +95,7 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
             ProjectileType.MACHINE_GUN -> MachineGunPickup(x, y, ammunition)
             ProjectileType.PISTOL -> PistolPickup(x, y, ammunition)
             ProjectileType.SHOTGUN -> ShotgunPickup(x, y, ammunition)
+            ProjectileType.BAZOOKA -> BazookaPickup(x, y, ammunition)
             else -> PistolPickup(x, y, ammunition)
         }
         pickup.zones.addAll(ZoneUtils.getZonesForBounds(pickup.bounds))

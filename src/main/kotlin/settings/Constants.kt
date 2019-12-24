@@ -11,6 +11,7 @@ const val WEAPON_RESPAWN_RATE = 60 // seconds
 const val PISTOLS_ON_MAP = 2
 const val MACHINE_GUNS_ON_MAP = 7
 const val SHOTGUNS_ON_MAP = 7
+const val BAZOOKAS_ON_MAP = 4
 
 const val MAP_WIDTH = 6400
 const val MAP_HEIGHT = 3600

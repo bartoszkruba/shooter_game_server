@@ -3,6 +3,7 @@ package engine
 import models.agents.Agent
 import models.pickups.Pickup
 import models.projectiles.ProjectileType
+import models.weapons.Bazooka
 import models.weapons.MachineGun
 import models.weapons.Pistol
 import models.weapons.Shotgun
@@ -86,6 +87,7 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
             ProjectileType.MACHINE_GUN -> MachineGun(foundPickup.ammunition)
             ProjectileType.PISTOL -> Pistol(foundPickup.ammunition)
             ProjectileType.SHOTGUN -> Shotgun(foundPickup.ammunition)
+            ProjectileType.BAZOOKA -> Bazooka(foundPickup.ammunition)
             else -> Pistol(foundPickup.ammunition)
         }
     }
