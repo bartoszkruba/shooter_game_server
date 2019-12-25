@@ -39,7 +39,7 @@ class ProjectileEngine(
             if (projectile.type == ProjectileType.BAZOOKA)
                 engine.spawnExplosion(
                     projectile.bounds.position.x as Float,
-                    projectile.bounds.position.x as Float,
+                    projectile.bounds.position.y as Float,
                     projectile.agentId,
                     ExplosionType.BAZOOKA
                 )
@@ -64,7 +64,7 @@ class ProjectileEngine(
             if (projectile.type == ProjectileType.BAZOOKA)
                 engine.spawnExplosion(
                     projectile.bounds.position.x as Float,
-                    projectile.bounds.position.x as Float,
+                    projectile.bounds.position.y as Float,
                     projectile.agentId,
                     ExplosionType.BAZOOKA
                 )
@@ -74,7 +74,7 @@ class ProjectileEngine(
             if (projectile.type == ProjectileType.BAZOOKA)
                 engine.spawnExplosion(
                     projectile.bounds.position.x as Float,
-                    projectile.bounds.position.x as Float,
+                    projectile.bounds.position.y as Float,
                     projectile.agentId,
                     ExplosionType.BAZOOKA
                 )

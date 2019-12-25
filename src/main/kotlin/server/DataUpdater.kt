@@ -170,9 +170,9 @@ class DataUpdater(
 
     override fun broadcastNewExplosion(xPos: Float, yPos: Float, projType: String) {
         for (agent in agents) if (xPos > agent.bounds.position.x as Float - WINDOW_WIDTH &&
-            xPos < agent.bounds.position.x as Float - WINDOW_WIDTH &&
+            xPos < agent.bounds.position.x as Float + WINDOW_WIDTH &&
             yPos > agent.bounds.position.y as Float - WINDOW_HEIGHT &&
-            yPos < agent.bounds.position.y as Float - WINDOW_HEIGHT
+            yPos < agent.bounds.position.y as Float + WINDOW_HEIGHT
         ) socketIo.to(agent.id).emit("newExplosion", jsObject { x = xPos; y = yPos; type = projType; })
     }
 }
