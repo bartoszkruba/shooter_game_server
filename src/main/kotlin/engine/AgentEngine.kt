@@ -131,6 +131,16 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
                     return
                 }
             }
+            if (matrix.explosiveBarrels[zone] != null) for (barrel in matrix.explosiveBarrels[zone]!!) {
+                if (Matter.SAT.collides(barrel.bounds, agent.bounds).collided as Boolean) {
+                    agent.zones = oldZones
+                    Matter.Body.setPosition(agent.bounds, jsObject {
+                        x = oldX
+                        y = oldY
+                    })
+                    return
+                }
+            }
         }
 
         oldZones.filter { !agent.zones.contains(it) }.forEach { matrix.agents[it]?.remove(agent) }
@@ -170,12 +180,18 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
                 y = Random.nextInt(minY, maxY)
             })
 
-            for (zone in ZoneUtils.getZonesForBounds(agent.bounds)) {
-                if (collided) break
+            loop@ for (zone in ZoneUtils.getZonesForBounds(agent.bounds)) {
                 if (matrix.walls[zone] != null) for (wall in matrix.walls[zone]!!) {
                     if (Matter.SAT.collides(agent.bounds, wall.bounds).collided as Boolean) {
                         collided = true
-                        break
+                        break@loop
+                    }
+                }
+
+                if (matrix.explosiveBarrels[zone] != null) for (barrel in matrix.explosiveBarrels[zone]!!) {
+                    if (Matter.SAT.collides(agent.bounds, barrel.bounds).collided as Boolean) {
+                        collided = true
+                        break@loop
                     }
                 }
             }

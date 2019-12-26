@@ -43,14 +43,12 @@ class BarrelEngine(
             loop@ for (zone in zones) {
                 if (matrix.walls[zone] != null) for (wall in matrix.walls[zone]!!) {
                     if (Matter.SAT.collides(wall.bounds, barrel.bounds).collided as Boolean) {
-                        println("wall collision")
                         collided = true
                         break@loop
                     }
                 }
                 if (matrix.agents[zone] != null) for (agent in matrix.agents[zone]!!) {
                     if (Matter.SAT.collides(agent.bounds, barrel.bounds).collided as Boolean) {
-                        println("agent collision")
                         collided = true
                         break@loop
                     }
@@ -77,11 +75,11 @@ class BarrelEngine(
         for (barrel in explosiveBarrels) removeBarrel(barrel)
     }
 
-    fun explodeBarrel(id: String, agentId: String) = explosiveBarrels.find { it.id == id }?.let {
-        removeBarrel(it)
+    fun explodeBarrel(barrel: ExplosiveBarrel, agentId: String) {
+        removeBarrel(barrel)
         engine.spawnExplosion(
-            it.bounds.position.x as Float,
-            it.bounds.position.y as Float,
+            barrel.bounds.position.x as Float,
+            barrel.bounds.position.y as Float,
             agentId,
             ExplosionType.BARREL
         )

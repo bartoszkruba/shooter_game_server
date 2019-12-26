@@ -60,17 +60,7 @@ class ProjectileEngine(
             }
         }
 
-        if (checkAgentCollisions(projectile)) {
-            if (projectile.type == ProjectileType.BAZOOKA)
-                engine.spawnExplosion(
-                    projectile.bounds.position.x as Float,
-                    projectile.bounds.position.y as Float,
-                    projectile.agentId,
-                    ExplosionType.BAZOOKA
-                )
-            return removeProjectile(projectile)
-        }
-        if (checkWallCollisions(projectile)) {
+        if (checkBarrelCollisions(projectile) || checkAgentCollisions(projectile) || checkWallCollisions(projectile)) {
             if (projectile.type == ProjectileType.BAZOOKA)
                 engine.spawnExplosion(
                     projectile.bounds.position.x as Float,
@@ -101,6 +91,18 @@ class ProjectileEngine(
         for (zone in projectile.zones) {
             if (matrix.walls[zone] != null) for (wall in matrix.walls[zone]!!) {
                 if (Matter.SAT.collides(wall.bounds, projectile.bounds).collided as Boolean) return true
+            }
+        }
+        return false
+    }
+
+    private fun checkBarrelCollisions(projectile: Projectile): Boolean {
+        for (zone in projectile.zones) {
+            if (matrix.explosiveBarrels[zone] != null) for (barrel in matrix.explosiveBarrels[zone]!!) {
+                if (Matter.SAT.collides(barrel.bounds, projectile.bounds).collided as Boolean) {
+                    engine.explodeBarrel(barrel, projectile.agentId)
+                    return true
+                }
             }
         }
         return false
