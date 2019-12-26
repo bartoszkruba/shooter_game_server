@@ -1,6 +1,7 @@
 package engine
 
 import models.agents.Agent
+import models.obstacles.ExplosiveBarrel
 import models.obstacles.Wall
 import models.pickups.Pickup
 import models.projectiles.Projectile
@@ -15,12 +16,14 @@ class GameEngine {
     val agents = ArrayList<Agent>()
     val projectiles = ArrayList<Projectile>()
     val pickups = ArrayList<Pickup>()
+    val explosiveBarrels = ArrayList<ExplosiveBarrel>()
 
     private val agentEngine = AgentEngine(matrix, agents, this)
     private val projectileEngine = ProjectileEngine(matrix, projectiles, this)
     private val pickupEngine = PickupEngine(matrix, pickups, this)
     private val wallEngine = WallEngine(matrix, walls)
     private val explosionEngine = ExplosionEngine(matrix, this)
+    private val barrelEngine = BarrelEngine(matrix, explosiveBarrels, this)
 
     var dataBroadcaster: DataBroadcaster? = null
 
@@ -46,6 +49,7 @@ class GameEngine {
             delta = (currentTime - lastLoop).toFloat() / 1000f
 
             if (pickupEngine.shouldRespawn()) pickupEngine.respawnPickups()
+            if (barrelEngine.shouldRespawn()) barrelEngine.respawnBarrels()
 
             agentEngine.processAgentActions(delta)
             projectileEngine.processProjectiles(delta)

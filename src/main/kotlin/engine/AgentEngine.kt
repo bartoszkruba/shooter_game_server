@@ -81,7 +81,12 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         if (foundPickup == null) return
 
         engine.removePickup(foundPickup)
-        engine.spawnPickup(foundPickup.x, foundPickup.y, agent.weapon.projectileType, agent.weapon.bulletsInChamber)
+        engine.spawnPickup(
+            foundPickup.bounds.position.x,
+            foundPickup.bounds.position.y,
+            agent.weapon.projectileType,
+            agent.weapon.bulletsInChamber
+        )
 
         agent.weapon = when (foundPickup.type) {
             ProjectileType.MACHINE_GUN -> MachineGun(foundPickup.ammunition)

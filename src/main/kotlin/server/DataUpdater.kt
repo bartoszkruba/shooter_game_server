@@ -116,8 +116,8 @@ class DataUpdater(
                         if (ids.contains(pickup.id)) continue
                         ids.add(pickup.id)
                         pickData.add(jsObject {
-                            x = pickup.x
-                            y = pickup.y
+                            x = pickup.bounds.bounds.min.x
+                            y = pickup.bounds.bounds.min.y
                             type = pickup.type
                             id = pickup.id
                         })
@@ -126,6 +126,28 @@ class DataUpdater(
                 socketIo.to(agent.id).emit("pickupData", jsObject { pickupData = pickData })
             }
             delay(1000L / PICKUP_UPDATES_PER_SECOND)
+        }
+    }
+
+    fun explosiveBarrelDataLoop(gameEngine: GameEngine) = launch {
+        while (gameEngine.continueLooping) {
+            for (agent in agents) {
+                val barrData = ArrayList<dynamic>()
+                val ids = ArrayList<String>()
+                for (zone in agent.viewportZones) matrix.explosiveBarrels[zone]?.let {
+                    for (barrel in it) {
+                        if (ids.contains(barrel.id)) continue
+                        ids.add(barrel.id)
+                        barrData.add(jsObject {
+                            x = barrel.bounds.bounds.min.x
+                            y = barrel.bounds.bounds.min.y
+                            id = barrel.id
+                        })
+                    }
+                }
+                socketIo.to(agent.id).emit("barrelData", barrData)
+            }
+            delay(1000L / EXPLOSIBE_BARREL_UPDATES_PER_SECOND)
         }
     }
 

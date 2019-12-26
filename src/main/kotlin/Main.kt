@@ -51,6 +51,7 @@ fun main() {
     dataUpdater.agentDataLoop(gameEngine)
     dataUpdater.projectileDataLoop(gameEngine)
     dataUpdater.pickupDataLoop(gameEngine)
+    dataUpdater.explosiveBarrelDataLoop(gameEngine)
 }
 
 private fun configureSocketEvents(socket: dynamic, gameEngine: GameEngine) {

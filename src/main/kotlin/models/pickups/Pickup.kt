@@ -4,8 +4,8 @@ import models.IdObject
 import util.Matter
 
 abstract class Pickup(
-    val x: Float,
-    val y: Float,
+    x: Float,
+    y: Float,
     width: Int,
     height: Int,
     val type: String,
