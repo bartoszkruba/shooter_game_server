@@ -79,7 +79,10 @@ class ProjectileEngine(
                     Matter.SAT.collides(agent.bounds, projectile.bounds).collided as Boolean
                 ) {
                     agent.health -= projectile.damage.toInt()
-                    if (agent.dead && agent.id != projectile.agentId) engine.incrementAgentKills(projectile.agentId)
+                    if (agent.dead) {
+                        if (agent.id != projectile.agentId) engine.incrementAgentKills(projectile.agentId)
+                        else engine.updateScoreboard()
+                    }
                     return true
                 }
             }

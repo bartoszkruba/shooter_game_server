@@ -199,7 +199,16 @@ class DataUpdater(
     }
 
     override fun broadcastScoreBoard() {
-
+        val sb = ArrayList<dynamic>()
+        for (agent in agents) {
+            sb.add(jsObject {
+                id = agent.id
+                kills = agent.kills
+                deaths = agent.deaths
+                name = agent.name
+            })
+        }
+        for (agent in agents) socketIo.to(agent.id).emit("scoreboardData", jsObject { scoreboardData = sb })
     }
 
     override fun broadcastKillConfirm(agentId: String) {

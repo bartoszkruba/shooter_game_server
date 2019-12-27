@@ -17,8 +17,7 @@ class BarrelEngine(
     private var lastRespawn = -0.1
 
     fun respawnBarrels() {
-        println("Respawning barrels...")
-        clearAllBarrels()
+        if (CLEAR_OLD_BARRELS) clearAllBarrels()
         this.lastRespawn = Date().getTime()
 
         try {

@@ -299,5 +299,9 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         agents.find { it.id == agentId }?.let { it.pickWeapon = value }
 
     fun incrementAgentKills(agentId: String, dataBroadcaster: DataBroadcaster) =
-        agents.find { it.id == agentId }?.let { it.kills++; dataBroadcaster.broadcastKillConfirm(it.id) }
+        agents.find { it.id == agentId }?.let {
+            it.kills++;
+            dataBroadcaster.broadcastKillConfirm(it.id);
+            dataBroadcaster.broadcastScoreBoard()
+        }
 }

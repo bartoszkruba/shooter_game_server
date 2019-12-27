@@ -33,6 +33,7 @@ class ControlsMapper {
 
         fun processNameChange(name: String, agentId: String, engine: GameEngine) {
             engine.setAgentName(agentId, name)
+            engine.updateScoreboard()
         }
 
         fun processRotationChange(data: dynamic, agentId: String, engine: GameEngine) {

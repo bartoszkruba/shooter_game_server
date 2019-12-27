@@ -36,6 +36,7 @@ fun main() {
 
         socket.on("disconnect") {
             println("Player disconnected, ${socket.id}")
+            dataUpdater.broadcastScoreBoard()
             gameEngine.removeAgent(socket.id as String)
             dataUpdater.broadcastPlayerDisconnect(socket.id as String)
         }
@@ -44,6 +45,7 @@ fun main() {
         gameEngine.addAgentAtRandomPlace(socket.id.toString())
         dataUpdater.sendSocketId(socket)
         dataUpdater.sendWallData(socket)
+        dataUpdater.broadcastScoreBoard()
     }
 
 

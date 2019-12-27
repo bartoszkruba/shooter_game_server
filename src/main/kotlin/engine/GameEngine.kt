@@ -84,4 +84,6 @@ class GameEngine {
         explosionEngine.spawnExplosion(x, y, agentId, type, dataBroadcaster!!)
 
     fun explodeBarrel(barrel: ExplosiveBarrel, agentId: String) = barrelEngine.explodeBarrel(barrel, agentId)
+
+    fun updateScoreboard() = dataBroadcaster!!.broadcastScoreBoard()
 }

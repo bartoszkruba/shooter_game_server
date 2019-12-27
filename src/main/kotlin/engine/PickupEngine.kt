@@ -14,7 +14,6 @@ class PickupEngine(private val matrix: Matrix, private val pickups: ArrayList<Pi
     private var lastRespawn = -1.0
 
     fun respawnPickups() {
-        println("Respawning weapons...")
         clearAllPickups()
         this.lastRespawn = Date().getTime()
 

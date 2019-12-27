@@ -14,8 +14,9 @@ const val MACHINE_GUNS_ON_MAP = 7
 const val SHOTGUNS_ON_MAP = 7
 const val BAZOOKAS_ON_MAP = 4
 
-const val EXPLOSIVE_BARREL_RESPAWN_RATE = 60 // seconds
-const val EXPLOSIVE_BARRELS_ON_MAP = 15
+const val EXPLOSIVE_BARREL_RESPAWN_RATE = 4 // seconds
+const val EXPLOSIVE_BARRELS_ON_MAP = 1
+const val CLEAR_OLD_BARRELS = false
 
 const val MAP_WIDTH = 6400
 const val MAP_HEIGHT = 3600
