@@ -1,4 +1,4 @@
-## Continuation of [shooter_game](https://github.com/bartoszkruba/shooter_game) project. Rewritten in Kotlin JS
+## Continuation of [shooter_game](https://github.com/bartoszkruba/shooter_game) project. Server module rewritten in Kotlin JS
 
 ### How to run
 
