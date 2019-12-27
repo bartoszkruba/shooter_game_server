@@ -1,4 +1,4 @@
-## Attempt of rewriting [shooter_game](https://github.com/bartoszkruba/shooter_game) node.js module to Kotlin
+## Continuation of [shooter_game](https://github.com/bartoszkruba/shooter_game) project. Rewritten in Kotlin JS
 
 ### How to run
 
