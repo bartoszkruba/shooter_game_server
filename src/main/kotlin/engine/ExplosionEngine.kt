@@ -29,6 +29,7 @@ class ExplosionEngine(private val matrix: Matrix, private val engine: GameEngine
                     !agentIds.contains(agent.id)
                 ) {
                     agent.health -= damage
+                    if (agent.dead && agent.id != agentId) engine.incrementAgentKills(agentId)
                 }
             }
             if (matrix.explosiveBarrels[zone] != null) for (barrel in matrix.explosiveBarrels[zone]!!) {

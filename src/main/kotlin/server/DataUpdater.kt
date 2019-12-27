@@ -197,5 +197,13 @@ class DataUpdater(
             yPos < agent.bounds.position.y as Float + WINDOW_HEIGHT
         ) socketIo.to(agent.id).emit("newExplosion", jsObject { x = xPos; y = yPos; type = projType; })
     }
+
+    override fun broadcastScoreBoard() {
+
+    }
+
+    override fun broadcastKillConfirm(agentId: String) {
+        socketIo.to(agentId).emit("killConfirm", jsObject { })
+    }
 }
 

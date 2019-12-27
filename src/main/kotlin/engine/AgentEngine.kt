@@ -7,6 +7,7 @@ import models.weapons.Bazooka
 import models.weapons.MachineGun
 import models.weapons.Pistol
 import models.weapons.Shotgun
+import server.DataBroadcaster
 import settings.*
 import util.Matter
 import util.ZoneUtils
@@ -288,19 +289,15 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         if (agent.rightPressed) agent.velocity.x += velocity
     }
 
-    fun setAgentName(agentId: String, newName: String) {
-        agents.find { it.id == agentId }?.name = newName
-    }
+    fun setAgentName(agentId: String, newName: String) =
+        agents.find { it.id == agentId }?.let { it.name = newName }
 
-    fun setAgentRotation(agentId: String, rotation: Float) {
-        agents.find { it.id == agentId }?.directionAngle = rotation
-    }
+    fun setAgentRotation(agentId: String, rotation: Float) =
+        agents.find { it.id == agentId }?.let { it.directionAngle = rotation }
 
-    fun setAgentPickWeapon(agentId: String, value: Boolean) {
-        agents.find { it.id == agentId }?.pickWeapon = value
-    }
+    fun setAgentPickWeapon(agentId: String, value: Boolean) =
+        agents.find { it.id == agentId }?.let { it.pickWeapon = value }
 
-    fun addAgentKill(agentId: String) {
-        agents.find { it.id == agentId }?.let { it.kills++ }
-    }
+    fun incrementAgentKills(agentId: String, dataBroadcaster: DataBroadcaster) =
+        agents.find { it.id == agentId }?.let { it.kills++; dataBroadcaster.broadcastKillConfirm(it.id) }
 }

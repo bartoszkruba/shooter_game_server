@@ -71,7 +71,7 @@ class GameEngine {
     fun setAgentName(agentId: String, newName: String) = agentEngine.setAgentName(agentId, newName)
     fun setAgentRotation(agentId: String, rotation: Float) = agentEngine.setAgentRotation(agentId, rotation)
     fun setAgentPickWeapon(agentId: String, value: Boolean) = agentEngine.setAgentPickWeapon(agentId, value)
-    fun addAgentKill(agentId: String) = agentEngine.addAgentKill(agentId)
+    fun incrementAgentKills(agentId: String) = agentEngine.incrementAgentKills(agentId, dataBroadcaster!!)
 
     fun spawnProjectile(agent: Agent) = projectileEngine.spawnProjectile(agent, dataBroadcaster!!)
 
