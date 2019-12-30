@@ -34,7 +34,7 @@ class ProjectileEngine(
         if (projectile.bounds.position.x < WALL_SPRITE_WIDTH ||
             projectile.bounds.position.x > MAP_WIDTH - WALL_SPRITE_WIDTH ||
             projectile.bounds.position.y < WALL_SPRITE_HEIGHT ||
-            projectile.bounds.y > MAP_HEIGHT - WALL_SPRITE_HEIGHT
+            projectile.bounds.position.y > MAP_HEIGHT - WALL_SPRITE_HEIGHT
         ) {
             if (projectile.type == ProjectileType.BAZOOKA)
                 engine.spawnExplosion(
