@@ -6,22 +6,24 @@ import engine.Key
 class ControlsMapper {
     companion object {
         fun processKeyPressed(data: dynamic, agentId: String, engine: GameEngine) {
-            when {
-                data["W"] != null -> engine.setAgentKeyPressed(agentId, Key.UP)
-                data["A"] != null -> engine.setAgentKeyPressed(agentId, Key.LEFT)
-                data["S"] != null -> engine.setAgentKeyPressed(agentId, Key.DOWN)
-                data["D"] != null -> engine.setAgentKeyPressed(agentId, Key.RIGHT)
-                data["R"] != null -> engine.setAgentKeyPressed(agentId, Key.RELOAD)
+
+            when (data["key"]) {
+                KeyMappings.UP -> engine.setAgentKeyPressed(agentId, Key.UP)
+                KeyMappings.LEFT -> engine.setAgentKeyPressed(agentId, Key.LEFT)
+                KeyMappings.DOWN -> engine.setAgentKeyPressed(agentId, Key.DOWN)
+                KeyMappings.RIGHT -> engine.setAgentKeyPressed(agentId, Key.RIGHT)
+                KeyMappings.RELOAD -> engine.setAgentKeyPressed(agentId, Key.RELOAD)
             }
         }
 
         fun processKeyReleased(data: dynamic, agentId: String, engine: GameEngine) {
-            when {
-                data["W"] != null -> engine.setAgentKeyReleased(agentId, Key.UP)
-                data["A"] != null -> engine.setAgentKeyReleased(agentId, Key.LEFT)
-                data["S"] != null -> engine.setAgentKeyReleased(agentId, Key.DOWN)
-                data["D"] != null -> engine.setAgentKeyReleased(agentId, Key.RIGHT)
-                data["R"] != null -> engine.setAgentKeyReleased(agentId, Key.RELOAD)
+
+            when (data["key"]) {
+                KeyMappings.UP -> engine.setAgentKeyReleased(agentId, Key.UP)
+                KeyMappings.LEFT -> engine.setAgentKeyReleased(agentId, Key.LEFT)
+                KeyMappings.DOWN -> engine.setAgentKeyReleased(agentId, Key.DOWN)
+                KeyMappings.RIGHT -> engine.setAgentKeyReleased(agentId, Key.RIGHT)
+                KeyMappings.RELOAD -> engine.setAgentKeyReleased(agentId, Key.RELOAD)
             }
         }
 
