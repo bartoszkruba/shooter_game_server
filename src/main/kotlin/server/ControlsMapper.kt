@@ -6,7 +6,6 @@ import engine.Key
 class ControlsMapper {
     companion object {
         fun processKeyPressed(data: dynamic, agentId: String, engine: GameEngine) {
-
             when (data["key"]) {
                 KeyMappings.UP -> engine.setAgentKeyPressed(agentId, Key.UP)
                 KeyMappings.LEFT -> engine.setAgentKeyPressed(agentId, Key.LEFT)
@@ -17,7 +16,6 @@ class ControlsMapper {
         }
 
         fun processKeyReleased(data: dynamic, agentId: String, engine: GameEngine) {
-
             when (data["key"]) {
                 KeyMappings.UP -> engine.setAgentKeyReleased(agentId, Key.UP)
                 KeyMappings.LEFT -> engine.setAgentKeyReleased(agentId, Key.LEFT)

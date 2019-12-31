@@ -46,11 +46,11 @@ class Agent(
     var invincible = true
         private set
         get() {
-            return if (lastRespawn < Date().getTime() - INVINCIBILITY_DURATION * 1000) {
-                field = false
+            return if (lastRespawn + INVINCIBILITY_DURATION * 1000 > Date().getTime()) {
+                field = true
                 field
             } else {
-                field = true
+                field = false
                 field
             }
         }

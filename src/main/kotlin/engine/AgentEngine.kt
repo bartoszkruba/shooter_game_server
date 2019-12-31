@@ -157,13 +157,15 @@ class AgentEngine(private val matrix: Matrix, private val agents: ArrayList<Agen
         if (!it.dead) return@let
 
         moveAgentToRandomPlace(it)
-        it.health = PLAYER_BASE_HEALTH
+        it.lastRespawn = Date().getTime()
         it.weapon = Pistol()
+        it.health = PLAYER_BASE_HEALTH
     }
 
     fun addAgentAtRandomPlace(id: String) {
         val agent = Agent(id = id)
         moveAgentToRandomPlace(agent)
+        agent.lastRespawn = Date().getTime()
         agents.add(agent)
     }
 
