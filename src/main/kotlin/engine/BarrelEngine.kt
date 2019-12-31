@@ -52,6 +52,13 @@ class BarrelEngine(
                         break@loop
                     }
                 }
+
+                if (matrix.explosiveBarrels[zone] != null) for (barr in matrix.explosiveBarrels[zone]!!) {
+                    if (Matter.SAT.collides(barr.bounds, barrel.bounds).collided as Boolean) {
+                        collided = true
+                        break@loop
+                    }
+                }
             }
 
             if (!collided) break
