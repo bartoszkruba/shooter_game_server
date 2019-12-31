@@ -62,9 +62,6 @@ private fun configureSocketEvents(socket: dynamic, gameEngine: GameEngine) {
     socket.on("playerName") { data ->
         ControlsMapper.processNameChange(data.name as String, socket.id as String, gameEngine)
     }
-    socket.on("mouseStart") { ControlsMapper.processMousePressed(socket.id as String, gameEngine) }
-    socket.on("mouseStop") { ControlsMapper.processMouseReleased(socket.id as String, gameEngine) }
     socket.on("playerRotation") { data -> ControlsMapper.processRotationChange(data, socket.id as String, gameEngine) }
-    socket.on("pickWeapon") { ControlsMapper.processPickWeaponPressed(socket.id as String, gameEngine) }
     socket.on("restart") { ControlsMapper.processRespawn(socket.id as String, gameEngine) }
 }
