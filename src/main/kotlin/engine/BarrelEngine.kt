@@ -46,8 +46,8 @@ class BarrelEngine(
                         break@loop
                     }
                 }
-                if (matrix.agents[zone] != null) for (agent in matrix.agents[zone]!!) {
-                    if (Matter.SAT.collides(agent.bounds, barrel.bounds).collided as Boolean) {
+                if (matrix.players[zone] != null) for (player in matrix.players[zone]!!) {
+                    if (Matter.SAT.collides(player.bounds, barrel.bounds).collided as Boolean) {
                         collided = true
                         break@loop
                     }

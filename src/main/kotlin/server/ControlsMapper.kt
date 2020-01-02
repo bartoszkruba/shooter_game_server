@@ -8,39 +8,39 @@ class ControlsMapper {
         fun processKeyPressed(data: dynamic, agentId: String, engine: GameEngine) {
 
             when (data["key"]) {
-                KeyMappings.UP -> engine.setAgentKeyPressed(agentId, Key.UP)
-                KeyMappings.LEFT -> engine.setAgentKeyPressed(agentId, Key.LEFT)
-                KeyMappings.DOWN -> engine.setAgentKeyPressed(agentId, Key.DOWN)
-                KeyMappings.RIGHT -> engine.setAgentKeyPressed(agentId, Key.RIGHT)
-                KeyMappings.RELOAD -> engine.setAgentKeyPressed(agentId, Key.RELOAD)
-                KeyMappings.LEFT_MOUSE -> engine.setAgentMousePressed(agentId)
-                KeyMappings.PICK_WEAPON -> engine.setAgentPickWeapon(agentId, true)
+                KeyMappings.UP -> engine.setPlayerKeyPressed(agentId, Key.UP)
+                KeyMappings.LEFT -> engine.setPlayerKeyPressed(agentId, Key.LEFT)
+                KeyMappings.DOWN -> engine.setPlayerKeyPressed(agentId, Key.DOWN)
+                KeyMappings.RIGHT -> engine.setPlayerKeyPressed(agentId, Key.RIGHT)
+                KeyMappings.RELOAD -> engine.setPlayerKeyPressed(agentId, Key.RELOAD)
+                KeyMappings.LEFT_MOUSE -> engine.setPlayerMousePressed(agentId)
+                KeyMappings.PICK_WEAPON -> engine.setPlayerPickWeapon(agentId, true)
             }
         }
 
         fun processKeyReleased(data: dynamic, agentId: String, engine: GameEngine) {
 
             when (data["key"]) {
-                KeyMappings.UP -> engine.setAgentKeyReleased(agentId, Key.UP)
-                KeyMappings.LEFT -> engine.setAgentKeyReleased(agentId, Key.LEFT)
-                KeyMappings.DOWN -> engine.setAgentKeyReleased(agentId, Key.DOWN)
-                KeyMappings.RIGHT -> engine.setAgentKeyReleased(agentId, Key.RIGHT)
-                KeyMappings.RELOAD -> engine.setAgentKeyReleased(agentId, Key.RELOAD)
-                KeyMappings.LEFT_MOUSE -> engine.setAgentMouseReleased(agentId)
+                KeyMappings.UP -> engine.setPlayerKeyReleased(agentId, Key.UP)
+                KeyMappings.LEFT -> engine.setPlayerKeyReleased(agentId, Key.LEFT)
+                KeyMappings.DOWN -> engine.setPlayerKeyReleased(agentId, Key.DOWN)
+                KeyMappings.RIGHT -> engine.setPlayerKeyReleased(agentId, Key.RIGHT)
+                KeyMappings.RELOAD -> engine.setPlayerKeyReleased(agentId, Key.RELOAD)
+                KeyMappings.LEFT_MOUSE -> engine.setPlayerMouseReleased(agentId)
             }
         }
 
         fun processNameChange(name: String, agentId: String, engine: GameEngine) {
-            engine.setAgentName(agentId, name)
+            engine.setPlayerName(agentId, name)
             engine.updateScoreboard()
         }
 
         fun processRotationChange(data: dynamic, agentId: String, engine: GameEngine) {
-            engine.setAgentRotation(agentId, data.degrees as Float)
+            engine.setPlayerRotation(agentId, data.degrees as Float)
         }
 
         fun processRespawn(agentId: String, engine: GameEngine) {
-            engine.respawnAgent(agentId)
+            engine.respawnPlayer(agentId)
         }
     }
 }

@@ -1,6 +1,6 @@
 package engine
 
-import models.agents.Agent
+import models.agents.Player
 import models.explosions.ExplosionType
 import models.physics.Point
 import models.projectiles.*
@@ -60,7 +60,7 @@ class ProjectileEngine(
             }
         }
 
-        if (checkBarrelCollisions(projectile) || checkAgentCollisions(projectile) || checkWallCollisions(projectile)) {
+        if (checkBarrelCollisions(projectile) || checkPlayerCollisions(projectile) || checkWallCollisions(projectile)) {
             if (projectile.type == ProjectileType.BAZOOKA)
                 engine.spawnExplosion(
                     projectile.bounds.position.x as Float,
@@ -72,15 +72,15 @@ class ProjectileEngine(
         }
     }
 
-    private fun checkAgentCollisions(projectile: Projectile): Boolean {
+    private fun checkPlayerCollisions(projectile: Projectile): Boolean {
         for (zone in projectile.zones) {
-            if (matrix.agents[zone] != null) for (agent in matrix.agents[zone]!!) {
-                if (!agent.dead && !agent.invincible && projectile.agentId != agent.id &&
-                    Matter.SAT.collides(agent.bounds, projectile.bounds).collided as Boolean
+            if (matrix.players[zone] != null) for (player in matrix.players[zone]!!) {
+                if (!player.dead && !player.invincible && projectile.agentId != player.id &&
+                    Matter.SAT.collides(player.bounds, projectile.bounds).collided as Boolean
                 ) {
-                    agent.health -= projectile.damage.toInt()
-                    if (agent.dead) {
-                        if (agent.id != projectile.agentId) engine.incrementAgentKills(projectile.agentId)
+                    player.health -= projectile.damage.toInt()
+                    if (player.dead) {
+                        if (player.id != projectile.agentId) engine.incrementPlayerKills(projectile.agentId)
                         else engine.updateScoreboard()
                     }
                     return true
@@ -111,30 +111,30 @@ class ProjectileEngine(
         return false
     }
 
-    fun spawnProjectile(agent: Agent, dataBroadcaster: DataBroadcaster) {
-        val xCentre = agent.bounds.position.x as Float
-        val yCentre = agent.bounds.position.y as Float
+    fun spawnProjectile(player: Player, dataBroadcaster: DataBroadcaster) {
+        val xCentre = player.bounds.position.x as Float
+        val yCentre = player.bounds.position.y as Float
 
-        if (agent.weapon.projectileType == ProjectileType.SHOTGUN) repeat(SHOTGUN_PROJECTILES_FIRED) {
-            val edgePoint = projectToPlayerRectEdge(agent.directionAngle)
+        if (player.weapon.projectileType == ProjectileType.SHOTGUN) repeat(SHOTGUN_PROJECTILES_FIRED) {
+            val edgePoint = projectToPlayerRectEdge(player.directionAngle)
 
             edgePoint.x += xCentre - PLAYER_SPRITE_WIDTH / 2
             edgePoint.y += yCentre - PLAYER_SPRITE_HEIGHT / 2
-            val angle = agent.directionAngle + Random.nextInt(-SHOTGUN_SPREAD, SHOTGUN_SPREAD)
+            val angle = player.directionAngle + Random.nextInt(-SHOTGUN_SPREAD, SHOTGUN_SPREAD)
 
             spawnProjectile(
-                edgePoint.x, edgePoint.y, angle, agent.id, agent.weapon.projectileType,
+                edgePoint.x, edgePoint.y, angle, player.id, player.weapon.projectileType,
                 dataBroadcaster
             )
         }
         else {
-            val edgePoint = projectToPlayerRectEdge(agent.directionAngle)
+            val edgePoint = projectToPlayerRectEdge(player.directionAngle)
 
             edgePoint.x += xCentre - PLAYER_SPRITE_WIDTH / 2
             edgePoint.y += yCentre - PLAYER_SPRITE_HEIGHT / 2
 
             spawnProjectile(
-                edgePoint.x, edgePoint.y, agent.directionAngle, agent.id, agent.weapon.projectileType,
+                edgePoint.x, edgePoint.y, player.directionAngle, player.id, player.weapon.projectileType,
                 dataBroadcaster
             )
         }

@@ -15,7 +15,7 @@ fun main() {
     val gameEngine = GameEngine()
     val dataUpdater = DataUpdater(
         walls = gameEngine.walls,
-        agents = gameEngine.agents,
+        players = gameEngine.players,
         projectiles = gameEngine.projectiles,
         matrix = gameEngine.matrix,
         socketIo = io
@@ -37,12 +37,12 @@ fun main() {
         socket.on("disconnect") {
             println("Player disconnected, ${socket.id}")
             dataUpdater.broadcastScoreBoard()
-            gameEngine.removeAgent(socket.id as String)
+            gameEngine.removePlayer(socket.id as String)
             dataUpdater.broadcastPlayerDisconnect(socket.id as String)
         }
 
         configureSocketEvents(socket, gameEngine)
-        gameEngine.addAgentAtRandomPlace(socket.id.toString())
+        gameEngine.addPlayerAtRandomPlace(socket.id.toString())
         dataUpdater.sendSocketId(socket)
         dataUpdater.sendWallData(socket)
         dataUpdater.broadcastScoreBoard()

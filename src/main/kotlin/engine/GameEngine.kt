@@ -1,6 +1,6 @@
 package engine
 
-import models.agents.Agent
+import models.agents.Player
 import models.obstacles.ExplosiveBarrel
 import models.obstacles.Wall
 import models.pickups.Pickup
@@ -13,12 +13,12 @@ import kotlin.js.Date
 class GameEngine {
     val matrix = Matrix()
     val walls = ArrayList<Wall>()
-    val agents = ArrayList<Agent>()
+    val players = ArrayList<Player>()
     val projectiles = ArrayList<Projectile>()
     val pickups = ArrayList<Pickup>()
     val explosiveBarrels = ArrayList<ExplosiveBarrel>()
 
-    private val agentEngine = AgentEngine(matrix, agents, this)
+    private val playerEngine = PlayerEngine(matrix, players, this)
     private val projectileEngine = ProjectileEngine(matrix, projectiles, this)
     private val pickupEngine = PickupEngine(matrix, pickups, this)
     private val wallEngine = WallEngine(matrix, walls)
@@ -51,7 +51,7 @@ class GameEngine {
             if (pickupEngine.shouldRespawn()) pickupEngine.respawnPickups()
             if (barrelEngine.shouldRespawn()) barrelEngine.respawnBarrels()
 
-            agentEngine.processAgentActions(delta)
+            playerEngine.processPlayerActions(delta)
             projectileEngine.processProjectiles(delta)
 
             lastLoop = currentTime
@@ -60,20 +60,20 @@ class GameEngine {
     }
 
 
-    fun addAgent(id: String, x: Int, y: Int) = agentEngine.addAgent(id, x, y)
-    fun addAgentAtRandomPlace(id: String) = agentEngine.addAgentAtRandomPlace(id)
-    fun respawnAgent(id: String) = agentEngine.respawnAgent(id)
-    fun removeAgent(id: String) = agentEngine.removeAgent(id)
-    fun setAgentKeyPressed(agentId: String, key: Key) = agentEngine.setKeyPressed(agentId, key)
-    fun setAgentKeyReleased(agentId: String, key: Key) = agentEngine.setKeyReleased(agentId, key)
-    fun setAgentMousePressed(agentId: String) = agentEngine.setMousePressed(agentId)
-    fun setAgentMouseReleased(agentId: String) = agentEngine.setMouseReleased(agentId)
-    fun setAgentName(agentId: String, newName: String) = agentEngine.setAgentName(agentId, newName)
-    fun setAgentRotation(agentId: String, rotation: Float) = agentEngine.setAgentRotation(agentId, rotation)
-    fun setAgentPickWeapon(agentId: String, value: Boolean) = agentEngine.setAgentPickWeapon(agentId, value)
-    fun incrementAgentKills(agentId: String) = agentEngine.incrementAgentKills(agentId, dataBroadcaster!!)
+    fun addPlayer(id: String, x: Int, y: Int) = playerEngine.addPlayer(id, x, y)
+    fun addPlayerAtRandomPlace(id: String) = playerEngine.addPlayerAtRandomPlace(id)
+    fun respawnPlayer(id: String) = playerEngine.respawnPlayer(id)
+    fun removePlayer(id: String) = playerEngine.removePlayer(id)
+    fun setPlayerKeyPressed(agentId: String, key: Key) = playerEngine.setKeyPressed(agentId, key)
+    fun setPlayerKeyReleased(agentId: String, key: Key) = playerEngine.setKeyReleased(agentId, key)
+    fun setPlayerMousePressed(agentId: String) = playerEngine.setMousePressed(agentId)
+    fun setPlayerMouseReleased(agentId: String) = playerEngine.setMouseReleased(agentId)
+    fun setPlayerName(agentId: String, newName: String) = playerEngine.setPlayerName(agentId, newName)
+    fun setPlayerRotation(agentId: String, rotation: Float) = playerEngine.setPlayerRotation(agentId, rotation)
+    fun setPlayerPickWeapon(agentId: String, value: Boolean) = playerEngine.setPlayerPickWeapon(agentId, value)
+    fun incrementPlayerKills(agentId: String) = playerEngine.incrementPlayerKills(agentId, dataBroadcaster!!)
 
-    fun spawnProjectile(agent: Agent) = projectileEngine.spawnProjectile(agent, dataBroadcaster!!)
+    fun spawnProjectile(player: Player) = projectileEngine.spawnProjectile(player, dataBroadcaster!!)
 
     fun spawnPickup(x: Float, y: Float, type: String, ammunition: Int) =
         pickupEngine.spawnPickup(x, y, type, ammunition)

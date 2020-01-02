@@ -24,13 +24,13 @@ class ExplosionEngine(private val matrix: Matrix, private val engine: GameEngine
 
         val agentIds = ArrayList<String>()
         for (zone in zones) {
-            if (matrix.agents[zone] != null) for (agent in matrix.agents[zone]!!) {
+            if (matrix.players[zone] != null) for (agent in matrix.players[zone]!!) {
                 if (Matter.SAT.collides(agent.bounds, bounds).collided as Boolean && !agent.invincible && !agent.dead &&
                     !agentIds.contains(agent.id)
                 ) {
                     agent.health -= damage
                     if (agent.dead) {
-                        if (agent.id != agentId) engine.incrementAgentKills(agentId)
+                        if (agent.id != agentId) engine.incrementPlayerKills(agentId)
                         else engine.updateScoreboard()
                     }
                 }

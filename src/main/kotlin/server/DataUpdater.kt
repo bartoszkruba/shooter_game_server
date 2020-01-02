@@ -2,7 +2,7 @@ package server
 
 import engine.GameEngine
 import engine.Matrix
-import models.agents.Agent
+import models.agents.Player
 import models.obstacles.Wall
 import models.projectiles.Projectile
 import settings.*
@@ -13,14 +13,14 @@ import util.launch
 
 class DataUpdater(
     private val walls: ArrayList<Wall>,
-    private val agents: ArrayList<Agent>,
+    private val players: ArrayList<Player>,
     private val projectiles: ArrayList<Projectile>,
     private val matrix: Matrix,
     private val socketIo: dynamic
 ) : DataBroadcaster {
     fun agentDataLoop(gameEngine: GameEngine) = launch {
         while (gameEngine.continueLooping) {
-            for (agent in agents) {
+            for (agent in players) {
                 var minX = agent.bounds.position.x - WINDOW_WIDTH
                 var minY = agent.bounds.position.y - WINDOW_HEIGHT
                 var maxX = agent.bounds.position.x + WINDOW_WIDTH
@@ -52,7 +52,7 @@ class DataUpdater(
                 val agData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
 
-                for (zone in agent.viewportZones) matrix.agents[zone]?.forEach {
+                for (zone in agent.viewportZones) matrix.players[zone]?.forEach {
                     if (!ids.contains(it.id)) {
                         ids.add(it.id)
                         agData.add(jsObject {
@@ -79,7 +79,7 @@ class DataUpdater(
 
     fun projectileDataLoop(gameEngine: GameEngine) = launch {
         while (gameEngine.continueLooping) {
-            for (agent in agents) {
+            for (agent in players) {
                 val projData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
 
@@ -107,7 +107,7 @@ class DataUpdater(
 
     fun pickupDataLoop(gameEngine: GameEngine) = launch {
         while (gameEngine.continueLooping) {
-            for (agent in agents) {
+            for (agent in players) {
                 val pickData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
 
@@ -131,7 +131,7 @@ class DataUpdater(
 
     fun explosiveBarrelDataLoop(gameEngine: GameEngine) = launch {
         while (gameEngine.continueLooping) {
-            for (agent in agents) {
+            for (agent in players) {
                 val barrData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
                 for (zone in agent.viewportZones) matrix.explosiveBarrels[zone]?.let {
@@ -167,11 +167,11 @@ class DataUpdater(
     }
 
     fun broadcastPlayerDisconnect(agentId: String) {
-        for (agent in agents) socketIo.to(agent.id).emit("playerDisconnected", jsObject { id = agentId })
+        for (agent in players) socketIo.to(agent.id).emit("playerDisconnected", jsObject { id = agentId })
     }
 
     override fun broadcastNewProjectile(projectile: Projectile) {
-        for (agent in agents) {
+        for (agent in players) {
             if (projectile.bounds.position.x > agent.bounds.position.x - WINDOW_WIDTH &&
                 projectile.bounds.position.x < agent.bounds.position.x + WINDOW_WIDTH &&
                 projectile.bounds.position.y > agent.bounds.position.y - WINDOW_HEIGHT &&
@@ -191,7 +191,7 @@ class DataUpdater(
     }
 
     override fun broadcastNewExplosion(xPos: Float, yPos: Float, projType: String) {
-        for (agent in agents) if (xPos > agent.bounds.position.x as Float - WINDOW_WIDTH &&
+        for (agent in players) if (xPos > agent.bounds.position.x as Float - WINDOW_WIDTH &&
             xPos < agent.bounds.position.x as Float + WINDOW_WIDTH &&
             yPos > agent.bounds.position.y as Float - WINDOW_HEIGHT &&
             yPos < agent.bounds.position.y as Float + WINDOW_HEIGHT
@@ -200,7 +200,7 @@ class DataUpdater(
 
     override fun broadcastScoreBoard() {
         val sb = ArrayList<dynamic>()
-        for (agent in agents) {
+        for (agent in players) {
             sb.add(jsObject {
                 id = agent.id
                 kills = agent.kills
@@ -208,7 +208,7 @@ class DataUpdater(
                 name = agent.name
             })
         }
-        for (agent in agents) socketIo.to(agent.id).emit("scoreboardData", jsObject { scoreboardData = sb })
+        for (agent in players) socketIo.to(agent.id).emit("scoreboardData", jsObject { scoreboardData = sb })
     }
 
     override fun broadcastKillConfirm(agentId: String) {
