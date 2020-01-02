@@ -50,7 +50,8 @@ fun main() {
 
 
     gameEngine.start()
-    dataUpdater.agentDataLoop(gameEngine)
+    dataUpdater.playerDataLoop(gameEngine)
+    dataUpdater.zombieDataLoop(gameEngine)
     dataUpdater.projectileDataLoop(gameEngine)
     dataUpdater.pickupDataLoop(gameEngine)
     dataUpdater.explosiveBarrelDataLoop(gameEngine)

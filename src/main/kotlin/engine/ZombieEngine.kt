@@ -15,6 +15,10 @@ class ZombieEngine(
 ) {
     private var lastRespawn = 0.0
 
+    fun processZombieActions(delta: Float) {
+
+    }
+
     fun shouldRespawn(): Boolean {
         return Date().getTime() - lastRespawn > ZOMBIE_RESPAWN_RATE * 1000
     }
@@ -22,13 +26,13 @@ class ZombieEngine(
     fun respawnZombies() {
         lastRespawn = Date().getTime()
         try {
-            repeat(ZOMBIES_PER_RESPAWN) { respawnZombie() }
+            repeat(ZOMBIES_PER_RESPAWN) { spawnZombie() }
         } catch (ex: Exception) {
             println(ex.message)
         }
     }
 
-    private fun respawnZombie() {
+    private fun spawnZombie() {
         val minX = WALL_SPRITE_WIDTH + ZOMBIE_SPRITE_WIDTH
         val maxX = MAP_WIDTH - WALL_SPRITE_WIDTH - ZOMBIE_SPRITE_WIDTH
         val minY = WALL_SPRITE_HEIGHT + ZOMBIE_SPRITE_HEIGHT

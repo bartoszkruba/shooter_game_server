@@ -56,6 +56,7 @@ class GameEngine {
             if (zombieEngine.shouldRespawn()) zombieEngine.respawnZombies()
 
             playerEngine.processPlayerActions(delta)
+            zombieEngine.processZombieActions(delta)
             projectileEngine.processProjectiles(delta)
 
             lastLoop = currentTime

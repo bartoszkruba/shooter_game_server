@@ -18,41 +18,16 @@ class DataUpdater(
     private val matrix: Matrix,
     private val socketIo: dynamic
 ) : DataBroadcaster {
-    fun agentDataLoop(gameEngine: GameEngine) = launch {
+    fun playerDataLoop(gameEngine: GameEngine) = launch {
         while (gameEngine.continueLooping) {
-            for (agent in players) {
-                var minX = agent.bounds.position.x - WINDOW_WIDTH
-                var minY = agent.bounds.position.y - WINDOW_HEIGHT
-                var maxX = agent.bounds.position.x + WINDOW_WIDTH
-                var maxY = agent.bounds.position.y + WINDOW_HEIGHT
+            for (player in players) {
 
-                if (minX < 0) {
-                    maxX -= minX
-                    minX = 0
-                } else if (maxX > MAP_WIDTH) {
-                    minX -= maxX
-                    maxX = MAP_WIDTH
-                }
-
-                if (minY < 0) {
-                    maxY -= minY
-                    minY = 0
-                } else if (maxY > MAP_HEIGHT) {
-                    minY -= maxY
-                    maxY = MAP_WIDTH
-                }
-
-                agent.viewportZones = ZoneUtils.getZonesForBounds(
-                    minX = minX as Int,
-                    maxX = maxX as Int,
-                    minY = minY as Int,
-                    maxY = maxY as Int
-                )
+                calculatePlayerViewportZones(player)
 
                 val agData = ArrayList<dynamic>()
                 val ids = ArrayList<String>()
 
-                for (zone in agent.viewportZones) matrix.players[zone]?.forEach {
+                for (zone in player.viewportZones) matrix.players[zone]?.forEach {
                     if (!ids.contains(it.id)) {
                         ids.add(it.id)
                         agData.add(jsObject {
@@ -71,10 +46,65 @@ class DataUpdater(
                         })
                     }
                 }
-                socketIo.to(agent.id).emit("agentData", jsObject { agentData = agData })
+                socketIo.to(player.id).emit("agentData", jsObject { agentData = agData })
             }
             delay(1000L / AGENT_UPDATES_PER_SECOND)
         }
+    }
+
+    fun zombieDataLoop(gameEngine: GameEngine) = launch {
+        while (gameEngine.continueLooping) {
+            for (player in players) {
+                val zombData = ArrayList<dynamic>()
+                val ids = ArrayList<String>()
+                for (zone in player.viewportZones) if (matrix.zombies[zone] != null) for (zombie in matrix.zombies[zone]!!) {
+                    if (ids.contains(zombie.id)) continue
+                    ids.add(zombie.id)
+                    zombData.add(jsObject {
+                        x = zombie.bounds.bounds.min.x
+                        y = zombie.bounds.bounds.minx.y
+                        xVelocity = zombie.velocity.x * ZOMBIE_MOVEMENT_SPEED
+                        yVelocity = zombie.velocity.y * ZOMBIE_MOVEMENT_SPEED
+                        isDead = zombie.dead
+                        currentHealth = zombie.health
+                        id = zombie.id
+                        angle = zombie.directionAngle
+                    })
+                }
+                socketIo.to(player.id).emit("zombieData", jsObject { zombieData = zombData })
+            }
+            delay(1000L / AGENT_UPDATES_PER_SECOND)
+        }
+    }
+
+    private fun calculatePlayerViewportZones(player: Player) {
+        var minX = player.bounds.position.x - WINDOW_WIDTH
+        var minY = player.bounds.position.y - WINDOW_HEIGHT
+        var maxX = player.bounds.position.x + WINDOW_WIDTH
+        var maxY = player.bounds.position.y + WINDOW_HEIGHT
+
+        if (minX < 0) {
+            maxX -= minX
+            minX = 0
+        } else if (maxX > MAP_WIDTH) {
+            minX -= maxX
+            maxX = MAP_WIDTH
+        }
+
+        if (minY < 0) {
+            maxY -= minY
+            minY = 0
+        } else if (maxY > MAP_HEIGHT) {
+            minY -= maxY
+            maxY = MAP_WIDTH
+        }
+
+        player.viewportZones = ZoneUtils.getZonesForBounds(
+            minX = minX as Int,
+            maxX = maxX as Int,
+            minY = minY as Int,
+            maxY = maxY as Int
+        )
     }
 
     fun projectileDataLoop(gameEngine: GameEngine) = launch {
