@@ -21,7 +21,7 @@ class BarrelEngine(
         this.lastRespawn = Date().getTime()
 
         try {
-            repeat(EXPLOSIVE_BARRELS_ON_MAP) { spawnBarrelAtRandomPlace() }
+            repeat(EXPLOSIVE_BARRELS_PER_RESPAWN) { spawnBarrelAtRandomPlace() }
         } catch (ex: Exception) {
             println(ex.message)
         }

@@ -21,6 +21,7 @@ class GameEngine {
     val explosiveBarrels = ArrayList<ExplosiveBarrel>()
 
     private val playerEngine = PlayerEngine(matrix, players, this)
+    private val zombieEngine = ZombieEngine(matrix, zombies, this)
     private val projectileEngine = ProjectileEngine(matrix, projectiles, this)
     private val pickupEngine = PickupEngine(matrix, pickups, this)
     private val wallEngine = WallEngine(matrix, walls)
@@ -52,6 +53,7 @@ class GameEngine {
 
             if (pickupEngine.shouldRespawn()) pickupEngine.respawnPickups()
             if (barrelEngine.shouldRespawn()) barrelEngine.respawnBarrels()
+            if (zombieEngine.shouldRespawn()) zombieEngine.respawnZombies()
 
             playerEngine.processPlayerActions(delta)
             projectileEngine.processProjectiles(delta)
