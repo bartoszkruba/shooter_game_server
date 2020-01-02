@@ -1,6 +1,7 @@
 package engine
 
 import models.agents.Player
+import models.agents.Zombie
 import models.obstacles.ExplosiveBarrel
 import models.obstacles.Wall
 import models.pickups.Pickup
@@ -16,6 +17,7 @@ class GameEngine {
     val players = ArrayList<Player>()
     val projectiles = ArrayList<Projectile>()
     val pickups = ArrayList<Pickup>()
+    val zombies = ArrayList<Zombie>()
     val explosiveBarrels = ArrayList<ExplosiveBarrel>()
 
     private val playerEngine = PlayerEngine(matrix, players, this)

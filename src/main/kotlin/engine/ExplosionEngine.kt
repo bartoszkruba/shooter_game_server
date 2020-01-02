@@ -23,16 +23,29 @@ class ExplosionEngine(private val matrix: Matrix, private val engine: GameEngine
         val zones = ZoneUtils.getZonesForBounds(bounds)
 
         val agentIds = ArrayList<String>()
+        val zombieIds = ArrayList<String>()
         for (zone in zones) {
-            if (matrix.players[zone] != null) for (agent in matrix.players[zone]!!) {
-                if (Matter.SAT.collides(agent.bounds, bounds).collided as Boolean && !agent.invincible && !agent.dead &&
-                    !agentIds.contains(agent.id)
+            if (matrix.players[zone] != null) for (player in matrix.players[zone]!!) {
+                if (Matter.SAT.collides(
+                        player.bounds,
+                        bounds
+                    ).collided as Boolean && !player.invincible && !player.dead &&
+                    !agentIds.contains(player.id)
                 ) {
-                    agent.health -= damage
-                    if (agent.dead) {
-                        if (agent.id != agentId) engine.incrementPlayerKills(agentId)
+                    player.health -= damage
+                    if (player.dead) {
+                        if (player.id != agentId) engine.incrementPlayerKills(agentId)
                         else engine.updateScoreboard()
                     }
+                }
+            }
+            if (matrix.zombies[zone] != null) for (zombie in matrix.zombies[zone]!!) {
+                if (Matter.SAT.collides(
+                        zombie.bounds,
+                        bounds
+                    ).collided as Boolean && !zombieIds.contains(zombie.id) && !zombie.dead
+                ) {
+                    zombie.health -= damage
                 }
             }
             if (matrix.explosiveBarrels[zone] != null) for (barrel in matrix.explosiveBarrels[zone]!!) {

@@ -60,7 +60,9 @@ class ProjectileEngine(
             }
         }
 
-        if (checkBarrelCollisions(projectile) || checkPlayerCollisions(projectile) || checkWallCollisions(projectile)) {
+        if (checkBarrelCollisions(projectile) || checkPlayerCollisions(projectile) || checkWallCollisions(projectile) ||
+            checkZombieCollisions(projectile)
+        ) {
             if (projectile.type == ProjectileType.BAZOOKA)
                 engine.spawnExplosion(
                     projectile.bounds.position.x as Float,
@@ -83,6 +85,18 @@ class ProjectileEngine(
                         if (player.id != projectile.agentId) engine.incrementPlayerKills(projectile.agentId)
                         else engine.updateScoreboard()
                     }
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    private fun checkZombieCollisions(projectile: Projectile): Boolean {
+        for (zone in projectile.zones) {
+            if (matrix.zombies[zone] != null) for (zombie in matrix.zombies[zone]!!) {
+                if (!zombie.dead && Matter.SAT.collides(projectile.bounds, zombie.bounds).collided as Boolean) {
+                    zombie.health -= projectile.damage.toInt()
                     return true
                 }
             }
