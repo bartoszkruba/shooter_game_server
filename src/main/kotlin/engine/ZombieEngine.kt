@@ -1,5 +1,6 @@
 package engine
 
+import models.agents.Player
 import models.agents.Zombie
 import settings.*
 import util.Matter
@@ -15,8 +16,40 @@ class ZombieEngine(
 ) {
     private var lastRespawn = 0.0
 
-    fun processZombieActions(delta: Float) {
 
+    fun moveZombies(delta: Float) {
+        for (zombie in zombies) moveZombie(zombie, delta)
+    }
+
+    private fun moveZombie(zombie: Zombie, delta: Float) {
+        zombie.setPosition(
+            (zombie.bounds.position.x + delta * zombie.velocity.x * ZOMBIE_MOVEMENT_SPEED) as Float,
+            (zombie.bounds.position.y + delta * zombie.velocity.y * ZOMBIE_MOVEMENT_SPEED) as Float
+        )
+    }
+
+    fun processZombieActions() {
+        for (zombie in zombies) controlZombie(zombie)
+    }
+
+    private fun controlZombie(zombie: Zombie) {
+        val spottedPlayer = findPlayerInSight(zombie.sight) ?: return
+
+        val deltaX = (zombie.bounds.position.x - spottedPlayer.bounds.position.x) as Float
+        val deltaY = (zombie.bounds.position.y - spottedPlayer.bounds.position.y) as Float
+        val angle = kotlin.math.atan2(deltaY, deltaX)
+
+        zombie.velocity.x = -kotlin.math.cos(angle)
+        zombie.velocity.y = -kotlin.math.sin(angle)
+    }
+
+    private fun findPlayerInSight(sight: dynamic): Player? {
+        for (zone in ZoneUtils.getZonesForBounds(sight)) {
+            if (matrix.players[zone] != null) for (player in matrix.players[zone]!!) {
+                return player
+            }
+        }
+        return null
     }
 
     fun shouldRespawn(): Boolean {
@@ -28,6 +61,7 @@ class ZombieEngine(
         try {
             repeat(ZOMBIES_PER_RESPAWN) { spawnZombie() }
         } catch (ex: Exception) {
+            println("respawn")
             println(ex.message)
         }
     }
@@ -65,7 +99,7 @@ class ZombieEngine(
                     }
                 }
                 if (matrix.zombies[zone] != null) for (zomb in matrix.zombies[zone]!!) {
-                    if (Matter.SAT.collides(zombie.bounds, zomb.bounds).colldied as Boolean) {
+                    if (Matter.SAT.collides(zombie.bounds, zomb.bounds).collided as Boolean) {
                         collided = true
                         break@loop
                     }
@@ -73,10 +107,7 @@ class ZombieEngine(
             }
 
             if (!collided) break
-            else Matter.Body.setPosition(zombie.bounds, jsObject {
-                x = Random.nextInt(minX, maxX).toFloat()
-                y = Random.nextInt(minY, maxY).toFloat()
-            })
+            else zombie.setPosition(Random.nextInt(minX, maxX).toFloat(), Random.nextInt(minY, maxY).toFloat())
         }
 
         for (zone in zombie.zones) {
