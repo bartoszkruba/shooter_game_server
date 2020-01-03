@@ -21,7 +21,6 @@ abstract class Agent(
         private set
     var health = health
         set(value) {
-            println("setting health to $value")
             if (value <= 0) {
                 field = 0
                 if (!this.dead) this.deaths++

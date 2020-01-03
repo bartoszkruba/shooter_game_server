@@ -62,7 +62,7 @@ class DataUpdater(
                     ids.add(zombie.id)
                     zombData.add(jsObject {
                         x = zombie.bounds.bounds.min.x
-                        y = zombie.bounds.bounds.minx.y
+                        y = zombie.bounds.bounds.min.y
                         xVelocity = zombie.velocity.x * ZOMBIE_MOVEMENT_SPEED
                         yVelocity = zombie.velocity.y * ZOMBIE_MOVEMENT_SPEED
                         isDead = zombie.dead
