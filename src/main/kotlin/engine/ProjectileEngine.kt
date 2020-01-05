@@ -97,6 +97,7 @@ class ProjectileEngine(
             if (matrix.zombies[zone] != null) for (zombie in matrix.zombies[zone]!!) {
                 if (!zombie.dead && Matter.SAT.collides(projectile.bounds, zombie.bounds).collided as Boolean) {
                     zombie.health -= projectile.damage.toInt()
+                    if (zombie.dead) engine.removeZombie(zombie)
                     return true
                 }
             }

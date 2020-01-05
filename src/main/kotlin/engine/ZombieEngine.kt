@@ -177,4 +177,9 @@ class ZombieEngine(
         }
         zombies.add(zombie)
     }
+
+    fun removeZombie(zombie: Zombie) {
+        zombies.remove(zombie)
+        for (zone in zombie.zones) matrix.zombies[zone]?.remove(zombie)
+    }
 }
