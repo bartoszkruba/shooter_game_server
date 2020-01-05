@@ -21,8 +21,6 @@ class ZombieEngine(
         for (zombie in zombies) try {
             moveZombie(zombie, delta)
         } catch (ex: Exception) {
-            println("move zombie exception")
-            println(ex.cause)
             println(ex.message)
         }
     }
@@ -101,6 +99,7 @@ class ZombieEngine(
 
         zombie.velocity.x = -kotlin.math.cos(angle)
         zombie.velocity.y = -kotlin.math.sin(angle)
+        zombie.directionAngle = angle
     }
 
     private fun findPlayerInSight(sight: dynamic): Player? {
