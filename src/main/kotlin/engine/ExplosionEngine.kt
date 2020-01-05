@@ -47,6 +47,7 @@ class ExplosionEngine(private val matrix: Matrix, private val engine: GameEngine
                 ) {
                     zombie.health -= damage
                     if (zombie.dead) engine.removeZombie(zombie)
+                    engine.broadcastZombieDead(zombie)
                 }
             }
             if (matrix.explosiveBarrels[zone] != null) for (barrel in matrix.explosiveBarrels[zone]!!) {

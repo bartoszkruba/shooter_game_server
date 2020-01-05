@@ -1,5 +1,6 @@
 package server
 
+import models.agents.Zombie
 import models.projectiles.Projectile
 
 interface DataBroadcaster {
@@ -7,4 +8,5 @@ interface DataBroadcaster {
     fun broadcastNewExplosion(xPos: Float, yPos: Float, projType: String)
     fun broadcastScoreBoard()
     fun broadcastKillConfirm(agentId: String)
+    fun broadcastZombieDead(zombie: Zombie)
 }

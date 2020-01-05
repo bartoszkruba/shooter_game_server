@@ -92,6 +92,7 @@ class GameEngine {
     fun explodeBarrel(barrel: ExplosiveBarrel, agentId: String) = barrelEngine.explodeBarrel(barrel, agentId)
 
     fun updateScoreboard() = dataBroadcaster!!.broadcastScoreBoard()
+    fun broadcastZombieDead(zombie: Zombie) = dataBroadcaster!!.broadcastZombieDead(zombie)
 
     fun removeZombie(zombie: Zombie) = zombieEngine.removeZombie(zombie)
 }

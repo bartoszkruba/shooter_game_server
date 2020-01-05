@@ -3,6 +3,7 @@ package server
 import engine.GameEngine
 import engine.Matrix
 import models.agents.Player
+import models.agents.Zombie
 import models.obstacles.Wall
 import models.projectiles.Projectile
 import settings.*
@@ -226,6 +227,14 @@ class DataUpdater(
             yPos > agent.bounds.position.y as Float - WINDOW_HEIGHT &&
             yPos < agent.bounds.position.y as Float + WINDOW_HEIGHT
         ) socketIo.to(agent.id).emit("newExplosion", jsObject { x = xPos; y = yPos; type = projType; })
+    }
+
+    override fun broadcastZombieDead(zombie: Zombie) {
+        for (agent in players) if (zombie.bounds.position.x > agent.bounds.position.x as Float - WINDOW_WIDTH &&
+            zombie.bounds.position.x < agent.bounds.position.x as Float + WINDOW_WIDTH &&
+            zombie.bounds.position.y > agent.bounds.position.y as Float - WINDOW_HEIGHT &&
+            zombie.bounds.position.y < agent.bounds.position.y as Float + WINDOW_HEIGHT
+        ) socketIo.to(agent.id).emit("zombieDead", jsObject { id = zombie.id })
     }
 
     override fun broadcastScoreBoard() {
