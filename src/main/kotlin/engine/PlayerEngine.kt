@@ -102,8 +102,7 @@ class PlayerEngine(private val matrix: Matrix, private val players: ArrayList<Pl
         val clampX = Matter.Common.clamp(
             newX,
             WALL_SPRITE_WIDTH + PLAYER_SPRITE_WIDTH / 2,
-            MAP_WIDTH - WALL_SPRITE_WIDTH,
-            PLAYER_SPRITE_WIDTH / 2
+            MAP_WIDTH - WALL_SPRITE_WIDTH - PLAYER_SPRITE_WIDTH / 2
         ) as Float
 
         val clampY = Matter.Common.clamp(

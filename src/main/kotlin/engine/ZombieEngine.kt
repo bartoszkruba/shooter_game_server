@@ -18,14 +18,71 @@ class ZombieEngine(
 
 
     fun moveZombies(delta: Float) {
-        for (zombie in zombies) moveZombie(zombie, delta)
+        for (zombie in zombies) try {
+            moveZombie(zombie, delta)
+        } catch (ex: Exception) {
+            println("move zombie exception")
+            println(ex.cause)
+            println(ex.message)
+        }
     }
 
     private fun moveZombie(zombie: Zombie, delta: Float) {
+
+        if (zombie.velocity.x == 0f && zombie.velocity.y == 0f) return
+
+        val oldX = zombie.bounds.position.x as Float
+        val oldY = zombie.bounds.position.y as Float
+
+        val oldZones = ArrayList(zombie.zones)
+
         zombie.setPosition(
-            (zombie.bounds.position.x + delta * zombie.velocity.x * ZOMBIE_MOVEMENT_SPEED) as Float,
-            (zombie.bounds.position.y + delta * zombie.velocity.y * ZOMBIE_MOVEMENT_SPEED) as Float
+            Matter.Common.clamp(
+                zombie.bounds.position.x + delta * zombie.velocity.x * ZOMBIE_MOVEMENT_SPEED,
+                WALL_SPRITE_WIDTH + ZOMBIE_SPRITE_WIDTH / 2,
+                MAP_WIDTH - WALL_SPRITE_WIDTH - ZOMBIE_SPRITE_WIDTH / 2
+            ) as Float,
+            Matter.Common.clamp(
+                zombie.bounds.position.y + delta * zombie.velocity.y * ZOMBIE_MOVEMENT_SPEED,
+                WALL_SPRITE_HEIGHT + ZOMBIE_SPRITE_HEIGHT / 2,
+                MAP_HEIGHT - WALL_SPRITE_HEIGHT - ZOMBIE_SPRITE_HEIGHT / 2
+            ) as Float
         )
+
+
+        zombie.zones.clear()
+        zombie.zones.addAll(ZoneUtils.getZonesForBounds(zombie.bounds))
+
+        var collision = false
+
+        loop@ for (zone in zombie.zones) {
+            if (matrix.walls[zone] != null) for (wall in matrix.walls[zone]!!) {
+                if (Matter.SAT.collides(wall.bounds, zombie.bounds).collided as Boolean) {
+                    collision = true
+                    break@loop
+                }
+            }
+            if (matrix.explosiveBarrels[zone] != null) for (barrel in matrix.explosiveBarrels[zone]!!) {
+                if (Matter.SAT.collides(barrel.bounds, zombie.bounds).collided as Boolean) {
+                    collision = true
+                    break@loop
+                }
+            }
+        }
+
+        if (collision) {
+            zombie.setPosition(oldX, oldY)
+            zombie.zones.clear()
+            zombie.zones.addAll(oldZones)
+        } else {
+            oldZones.filter { !zombie.zones.contains(it) }.forEach { matrix.zombies[it]?.remove(zombie) }
+            zombie.zones.filter { !oldZones.contains(it) }.forEach {
+                matrix.zombies[it]?.add(zombie) ?: run {
+                    matrix.zombies[it] = ArrayList()
+                    matrix.zombies[it]!!.add(zombie)
+                }
+            }
+        }
     }
 
     fun processZombieActions() {
@@ -33,7 +90,10 @@ class ZombieEngine(
     }
 
     private fun controlZombie(zombie: Zombie) {
-        val spottedPlayer = findPlayerInSight(zombie.sight) ?: return
+        val spottedPlayer = findPlayerInSight(zombie.sight) ?: run {
+            zombie.velocity.apply { x = 0f; y = 0f; }
+            return
+        }
 
         val deltaX = (zombie.bounds.position.x - spottedPlayer.bounds.position.x) as Float
         val deltaY = (zombie.bounds.position.y - spottedPlayer.bounds.position.y) as Float
@@ -61,7 +121,6 @@ class ZombieEngine(
         try {
             repeat(ZOMBIES_PER_RESPAWN) { spawnZombie() }
         } catch (ex: Exception) {
-            println("respawn")
             println(ex.message)
         }
     }
