@@ -93,12 +93,13 @@ class ZombieEngine(
             return
         }
 
-        val deltaX = (zombie.bounds.position.x - spottedPlayer.bounds.position.x) as Float
-        val deltaY = (zombie.bounds.position.y - spottedPlayer.bounds.position.y) as Float
-        val angle = kotlin.math.atan2(deltaY, deltaX)
-
-        zombie.velocity.x = -kotlin.math.cos(angle)
-        zombie.velocity.y = -kotlin.math.sin(angle)
+        val deltaX = (spottedPlayer.bounds.position.x - zombie.bounds.position.x) as Float
+        val deltaY = (spottedPlayer.bounds.position.y - zombie.bounds.position.y) as Float
+        var angle = kotlin.math.atan2(deltaY, deltaX)
+        zombie.velocity.x = kotlin.math.cos(angle)
+        zombie.velocity.y = kotlin.math.sin(angle)
+        angle = angle * 180 / kotlin.math.PI.toFloat()
+        if (angle < 0) angle += 360f
         zombie.directionAngle = angle
     }
 
