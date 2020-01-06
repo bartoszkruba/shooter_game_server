@@ -16,6 +16,7 @@ const val BAZOOKAS_ON_MAP = 4
 
 const val ZOMBIE_RESPAWN_RATE = 4
 const val ZOMBIES_PER_RESPAWN = 1
+const val MAX_ZOMBIES_ON_MAP = 20
 const val EXPLOSIVE_BARREL_RESPAWN_RATE = 4 // seconds
 const val EXPLOSIVE_BARRELS_PER_RESPAWN = 1
 const val CLEAR_OLD_BARRELS = false

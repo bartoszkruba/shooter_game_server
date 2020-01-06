@@ -117,6 +117,7 @@ class ZombieEngine(
     }
 
     fun respawnZombies() {
+        if(zombies.size > MAX_ZOMBIES_ON_MAP) return
         lastRespawn = Date().getTime()
         try {
             repeat(ZOMBIES_PER_RESPAWN) { spawnZombie() }
