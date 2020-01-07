@@ -88,6 +88,11 @@ class ZombieEngine(
     }
 
     private fun controlZombie(zombie: Zombie) {
+        val playerInRange = findPlayerInAttackRange(zombie)
+        if (playerInRange != null && zombie.canAttack() && !playerInRange.dead) {
+            playerInRange.health -= ZOMBIE_ATTACK
+        }
+
         val spottedPlayer = findPlayerInSight(zombie.sight) ?: run {
             zombie.velocity.apply { x = 0f; y = 0f; }
             return
@@ -112,12 +117,21 @@ class ZombieEngine(
         return null
     }
 
+    private fun findPlayerInAttackRange(zombie: Zombie): Player? {
+        for (zone in ZoneUtils.getZonesForBounds(zombie.bounds)) {
+            if (matrix.players[zone] != null) for (player in matrix.players[zone]!!) {
+                if (Matter.SAT.collides(zombie.bounds, player.bounds).collided as Boolean) return player
+            }
+        }
+        return null
+    }
+
     fun shouldRespawn(): Boolean {
         return Date().getTime() - lastRespawn > ZOMBIE_RESPAWN_RATE * 1000
     }
 
     fun respawnZombies() {
-        if(zombies.size > MAX_ZOMBIES_ON_MAP) return
+        if (zombies.size > MAX_ZOMBIES_ON_MAP) return
         lastRespawn = Date().getTime()
         try {
             repeat(ZOMBIES_PER_RESPAWN) { spawnZombie() }

@@ -1,12 +1,10 @@
 package models.agents
 
-import settings.ZOMBIE_BASE_HEALTH
-import settings.ZOMBIE_SIGHT_RADIUS
-import settings.ZOMBIE_SPRITE_HEIGHT
-import settings.ZOMBIE_SPRITE_WIDTH
+import settings.*
 import util.Matter
 import util.ShortId
 import util.jsObject
+import kotlin.js.Date
 
 class Zombie(
     x: Float,
@@ -22,6 +20,7 @@ class Zombie(
     health = ZOMBIE_BASE_HEALTH
 ) {
     val sight = Matter.Bodies.circle(x, y, ZOMBIE_SIGHT_RADIUS)
+    private var lastAttack = 0.0
 
     init {
         setPosition(x, y)
@@ -37,4 +36,11 @@ class Zombie(
             y = yPos
         })
     }
+
+    fun canAttack() = Date().getTime() - lastAttack > ZOMBIE_ATTACK_SPEED * 1000
+
+    fun attack() {
+        this.lastAttack = Date().getTime()
+    }
+
 }

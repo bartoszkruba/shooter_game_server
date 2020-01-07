@@ -44,6 +44,7 @@ const val ZOMBIE_MOVEMENT_SPEED = 140f
 const val ZOMBIE_BASE_HEALTH = 350
 const val ZOMBIE_ATTACK = 50
 const val ZOMBIE_SIGHT_RADIUS = 500
+const val ZOMBIE_ATTACK_SPEED = 3 // seconds
 
 const val ZONE_SIZE = 100
 
