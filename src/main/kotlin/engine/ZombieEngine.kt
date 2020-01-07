@@ -92,6 +92,7 @@ class ZombieEngine(
         if (playerInRange != null && zombie.canAttack() && !playerInRange.dead) {
             zombie.attack()
             playerInRange.health -= ZOMBIE_ATTACK
+            gameEngine.broadcastZombieBite(zombie)
             if (playerInRange.dead) gameEngine.updateScoreboard()
             return
         }

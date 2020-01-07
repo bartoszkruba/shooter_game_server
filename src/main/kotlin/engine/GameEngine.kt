@@ -93,6 +93,7 @@ class GameEngine {
 
     fun updateScoreboard() = dataBroadcaster!!.broadcastScoreBoard()
     fun broadcastZombieDead(zombie: Zombie) = dataBroadcaster!!.broadcastZombieDead(zombie)
+    fun broadcastZombieBite(zombie: Zombie) = dataBroadcaster!!.broadcastZombieBite(zombie)
 
     fun removeZombie(zombie: Zombie) = zombieEngine.removeZombie(zombie)
 }

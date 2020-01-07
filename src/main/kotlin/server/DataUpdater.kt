@@ -237,6 +237,14 @@ class DataUpdater(
         ) socketIo.to(agent.id).emit("zombieDead", jsObject { id = zombie.id })
     }
 
+    override fun broadcastZombieBite(zombie: Zombie) {
+        for (agent in players) if (zombie.bounds.position.x > agent.bounds.position.x as Float - WINDOW_WIDTH &&
+            zombie.bounds.position.x < agent.bounds.position.x as Float + WINDOW_WIDTH &&
+            zombie.bounds.position.y > agent.bounds.position.y as Float - WINDOW_HEIGHT &&
+            zombie.bounds.position.y < agent.bounds.position.y as Float + WINDOW_HEIGHT
+        ) socketIo.to(agent.id).emit("zombieBite", jsObject { })
+    }
+
     override fun broadcastScoreBoard() {
         val sb = ArrayList<dynamic>()
         for (agent in players) {

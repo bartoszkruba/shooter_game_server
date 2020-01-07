@@ -9,4 +9,5 @@ interface DataBroadcaster {
     fun broadcastScoreBoard()
     fun broadcastKillConfirm(agentId: String)
     fun broadcastZombieDead(zombie: Zombie)
+    fun broadcastZombieBite(zombie: Zombie)
 }
