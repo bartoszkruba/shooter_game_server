@@ -9,6 +9,7 @@
   "author": "Bartosz Kruba",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^3.0.1",
     "express": "^4.17.1",
     "kotlin": "^1.3.60",
     "matter-js": "^0.14.2",

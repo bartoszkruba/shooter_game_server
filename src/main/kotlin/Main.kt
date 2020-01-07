@@ -5,11 +5,14 @@ import settings.AGENT_UPDATES_PER_SECOND
 import settings.PICKUP_UPDATES_PER_SECOND
 import settings.PROJECTILE_UPDATES_PER_SECOND
 import settings.SCOREBOARD_UPDATES_PER_SECOND
+import settings.ui.configureRoutes
 import util.*
 
 
 fun main() {
     val app = Express()
+    configureRoutes(app)
+
     val server = Http.Server(app)
     val io = SocketIO(server)
     val gameEngine = GameEngine()
