@@ -90,7 +90,10 @@ class ZombieEngine(
     private fun controlZombie(zombie: Zombie) {
         val playerInRange = findPlayerInAttackRange(zombie)
         if (playerInRange != null && zombie.canAttack() && !playerInRange.dead) {
+            zombie.attack()
             playerInRange.health -= ZOMBIE_ATTACK
+            if (playerInRange.dead) gameEngine.updateScoreboard()
+            return
         }
 
         val spottedPlayer = findPlayerInSight(zombie.sight) ?: run {
@@ -120,7 +123,7 @@ class ZombieEngine(
     private fun findPlayerInAttackRange(zombie: Zombie): Player? {
         for (zone in ZoneUtils.getZonesForBounds(zombie.bounds)) {
             if (matrix.players[zone] != null) for (player in matrix.players[zone]!!) {
-                if (Matter.SAT.collides(zombie.bounds, player.bounds).collided as Boolean) return player
+                if (Matter.SAT.collides(zombie.bounds, player.bounds).collided as Boolean && !player.dead) return player
             }
         }
         return null
