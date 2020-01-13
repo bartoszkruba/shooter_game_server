@@ -28,6 +28,9 @@ import util.jsObject
 fun configureRoutes(app: dynamic) {
     app.set("view engine", "ejs")
     app.use(BodyParser.json())
+    app.use(BodyParser.urlencoded(jsObject {
+        extended = true
+    }))
     app.get("/") { _, res, _ ->
         res.render("index", jsObject {
             weaponRespawnRate = WEAPON_RESPAWN_RATE
@@ -60,6 +63,9 @@ fun configureRoutes(app: dynamic) {
     }
 
     app.post("/") { req, res, _ ->
-        println(req.body.weaponRespawnRate)
+
+
+
+        res.redirect("/")
     }
 }
