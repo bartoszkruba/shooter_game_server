@@ -8,154 +8,188 @@
 </head>
 <body>
 
-<div class="container mt-5 border border-primary mb-5">
-    <div class="row mt-3">
+<div class="container mt-5 mb-5">
+    <div class="row mt-3 mb-3">
         <div class="col-12 m-auto text-center"><h1>Game Console</h1></div>
     </div>
-    <form>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label ">Weapon Respawn Rate (seconds)</label>
-            <div class="col-sm-6 ">
-                <input type="number" class="form-control-plaintext" value="<%- weaponRespawnRate %>">
+    <form action="/" method="post">
+        <div class="border border-primary p-3">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label ">Weapon Respawn Rate (seconds)</label>
+                <div class="col-sm-4">
+                    <input name="weaponRespawnRate" type="number" class="form-control-plaintext text-right"
+                           style="background-color: gainsboro;" value="<%- weaponRespawnRate %>">
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Pistols On Map</label>
-            <div class="col-sm-6">
-                <input type="number" class="form-control-plaintext" value="<%- pistolsOnMap %>">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Pistols On Map</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- pistolsOnMap %>">
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Machine Guns On Map</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control-plaintext" value="<%- machineGunsOnMap %>">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Machine Guns On Map</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- machineGunsOnMap %>">
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Shotguns On Map</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control-plaintext" value="<%- shotgunsOnMap %>">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Shotguns On Map</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- shotgunsOnMap %>">
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Bazookas On Map</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control-plaintext" value="<%- bazookasOnMap %>">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Bazookas On Map</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- bazookasOnMap %>">
+                </div>
             </div>
         </div>
         <hr>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Pistol Damage</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control-plaintext" value="<%- pistolDamage %>">
+        <div class="border border-primary p-3">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Pistol Damage</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- pistolDamage %>">
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Machine Gun Damage</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control-plaintext" value="<%- machineGunDamage %>">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Machine Gun Damage</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- machineGunDamage %>">
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Shotgun Damage</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control-plaintext" value="<%- shotgunDamage %>">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Shotgun Damage</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- shotgunDamage %>">
+                </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-6 col-form-label">Bazooka Damage</label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control-plaintext" value="<%- bazookaDamage %>">
+            <div class="form-group row">
+                <label class="col-sm-6 col-form-label">Bazooka Damage</label>
+                <div class="col-sm-4">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- bazookaDamage %>">
+                </div>
             </div>
-        </div>
-        <div class=" form-group row">
+            <div class=" form-group row">
                 <label class="col-sm-6 col-form-label">Bazooka Explosion Damage</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- bazookaExplosionDamage %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- bazookaExplosionDamage %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Barrel Explosion Damage</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- barrelExplosionDamage %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- barrelExplosionDamage %>">
                 </div>
             </div>
-            <hr>
+        </div>
+        <hr>
+        <div class="border border-primary p-3">
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Zombie Respawn Rate (seconds)</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- zombieRespawnRate %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- zombieRespawnRate %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Zombies Per Respawn</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- zombiesPerRespawn %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- zombiesPerRespawn %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Zombies On Map</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- zombiesOnMap %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- zombiesOnMap %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Zombie Attack Damage</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- zombieAttackDamage %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- zombieAttackDamage %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Zombie Attack Speed</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- zombieAttackSpeed %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- zombieAttackSpeed %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Zombie Movement Speed</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- zombieMovementSpeed %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- zombieMovementSpeed %>">
                 </div>
             </div>
-            <hr>
+        </div>
+        <hr>
+        <div class="border border-primary p-3">
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Explosive Barrel Respawn Rate (seconds)</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- barrelRespawnRate %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- barrelRespawnRate %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Explosive Barrels Per Respawn</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- barrelsPerRespawn %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- barrelsPerRespawn %>">
                 </div>
             </div>
-            <hr>
+        </div>
+        <hr>
+        <div class="border border-primary p-3">
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Player Health</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- playerHealth %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- playerHealth %>">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Zombie Health</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- zombieHealth %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- zombieHealth %>">
                 </div>
             </div>
-            <hr>
+        </div>
+        <hr>
+        <div class="border border-primary p-3">
             <div class="form-group row">
                 <label class="col-sm-6 col-form-label">Player Invincibility Duration (seconds)</label>
                 <div class="col-sm-4">
-                    <input type="number" class="form-control-plaintext" value="<%- invincibilityDuration %>">
+                    <input type="number" class="form-control-plaintext text-right" style="background-color: gainsboro;"
+                           value="<%- invincibilityDuration %>">
                 </div>
             </div>
-            <hr>
-            <div class="row m-4">
-                <div class="col-12 text-center">
-                    <button class="btn btn-primary btn-lg">Save Settings</button>
-                </div>
+        </div>
+        <hr>
+        <div class="row m-4">
+            <div class="col-12 text-center">
+                <button class="btn btn-primary btn-lg">Save Settings</button>
             </div>
+        </div>
     </form>
 </div>
 

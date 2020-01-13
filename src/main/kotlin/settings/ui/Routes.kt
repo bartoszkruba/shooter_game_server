@@ -21,10 +21,13 @@ import settings.EXPLOSIVE_BARRELS_PER_RESPAWN
 import settings.PLAYER_BASE_HEALTH
 import settings.ZOMBIE_BASE_HEALTH
 import settings.INVINCIBILITY_DURATION
+import util.BodyParser
+import util.Express
 import util.jsObject
 
 fun configureRoutes(app: dynamic) {
     app.set("view engine", "ejs")
+    app.use(BodyParser.json())
     app.get("/") { _, res, _ ->
         res.render("index", jsObject {
             weaponRespawnRate = WEAPON_RESPAWN_RATE
@@ -54,5 +57,9 @@ fun configureRoutes(app: dynamic) {
             zombieHealth = ZOMBIE_BASE_HEALTH
             invincibilityDuration = INVINCIBILITY_DURATION
         })
+    }
+
+    app.post("/") { req, res, _ ->
+        println(req.body.weaponRespawnRate)
     }
 }
