@@ -13,7 +13,16 @@ Run compiled code on Node.js
 ```
 cd node
 ```
-
+```
+npm install
+```
 ```
 node index.js
+```
+
+### Options  
+Server runs on port `8080`  
+Game settings console can be accessed through following address:  
+```
+http://localhost:8080
 ```
